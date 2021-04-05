@@ -32,8 +32,9 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-
+// * Admin/Mitra/List 
+$routes->add('/', 'Home::index');
+$routes->add('/admin/mitra/', 'Admin\Mitra::list');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

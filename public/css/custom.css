@@ -1,0 +1,65 @@
+.sidebar-button-in-sidenav {
+	position: absolute;
+    right: -10px;
+}
+.sidenav a.nav-link.active{
+	background-color: #099543 !important;
+	color: white !important;
+}
+.sidenav a.nav-link.active i::before{
+	color: white;
+}
+
+.navbar-top {
+	z-index: 999;
+}
+.navbar-top a.nav-link.primary{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border:3px solid #fb6340;
+    padding: 7px 7px;
+    border-radius: 8px;
+}
+.navbar-top a.nav-link.active{
+	background-color: #099543 !important;
+    color: white !important;
+    padding: 10px 10px;
+    border-radius: 8px;
+}
+.navbar-top a.nav-link.active i::before{
+	color: white;
+}
+
+.table-mitra-grid tr th, .table-mitra-grid tr td {
+	text-align: left !important;
+	border: 0 !important;
+}
+
+
+.triangle {
+	position: absolute;
+    left: -29px;
+    top: -29px;
+    transform: scaleY(12);
+}
+.triangle div {
+    border-top: 28px solid transparent;
+    border-right: 28px solid white;
+    border-bottom: 28px solid transparent;
+    border-left: 28px solid transparent;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.center-crop {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+}
+
+
+.btn-icon-only i {
+	position: relative;
+	top: 2px;
+}
