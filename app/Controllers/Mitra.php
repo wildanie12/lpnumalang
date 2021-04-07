@@ -11,8 +11,30 @@ class Mitra extends Controller
 		
 	}
 
-	public function detail($slug)
+	public function list()
 	{
 		
+	}
+
+	public function detail($slug)
+	{
+		$data['ui_title'] = "Toserba Mulyadi Elektro - Mitra LPNU Malang";
+		$data['ui_css'] = [
+			"lib/light-slider/css/lightslider.min.css"
+		];
+		$data['ui_js'] = [
+			"lib/light-slider/js/lightslider.min.js"
+		];
+		$data['ui_navbar'] = [
+			"Home|fas fa-home|". base_url(),
+			"Mitra|fas fa-list|". site_url('mitra'),
+			"LPNU Kecamatan" => [
+				"Sub #1|fab fa-facebook|https://www.facebook.com/",
+				"Sub #2|fab fa-twitter|https://www.twitter.com/",
+				"Sub #3|fab fa-instagram|https://www.instagram.com/"
+			],
+			"Statistik|fas fa-chart-line|". site_url('mitra'),
+		];
+		return view('mitra/detail', $data);
 	}
 }
