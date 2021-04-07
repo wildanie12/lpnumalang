@@ -135,7 +135,11 @@
 }
 .tail-select a.delete-item {
 	position: absolute;
-    right: 16px;
+    right: 10px;
+    top: 2px;
+}
+.select-dropdown .dropdown-inner{
+    overflow: visible !important;
 }
 
 div.ck-editor__editable {
