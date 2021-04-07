@@ -34,7 +34,14 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 // * Admin/Mitra/List 
 $routes->add('/', 'Home::index');
-$routes->add('/admin/mitra/', 'Admin\Mitra::list');
+
+$routes->add('/admin/mitra/', 'Admin\Mitra::list'); // Mitra Home
+$routes->get('/admin/mitra/ajax-list/(:segment)', 'Admin\Mitra::ajax_list/$1');
+$routes->get('/admin/mitra/ajax-single', 'Admin\Mitra::ajax_list/');
+$routes->add('/admin/mitra/(:segment)', 'Admin\Mitra::$1'); // Mitra Re-route method
+$routes->post('/admin/mitra/', 'Admin\Mitra::insert'); // Mitra Insert
+$routes->put('/admin/mitra/(:num)', 'Admin\Mitra::update/$1'); // Mitra Update
+$routes->delete('/admin/mitra/(:num)', 'Admin\Mitra::delete/$1'); // Mitra Delete
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -23,9 +23,20 @@
     <link rel="stylesheet" href="<?=site_url('lib/fontawesome-free-5.14.0-web/css/all.min.css')?>" type="text/css">
     <link rel="stylesheet" href="<?=site_url('lib/argon-dashboard/css')?>/argon.css?v=1.2.0" type="text/css">
     <link rel="stylesheet" type="text/css" href="<?=site_url('css/custom.css')?>">
+    <?php 
+        if (isset($ui_css)) {
+            if (is_array($ui_css)) {
+                foreach ($ui_css as $css) {
+    ?>
+    <link rel="stylesheet" type="text/css" href="<?=site_url($css)?>">
+    <?php 
+                }
+            }
+        }
+    ?>
 </head>
 
-<body>
+<body style="background: url('<?=site_url('images/background-logged.jpg')?>');">
     <!-- Sidenav -->
     <nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white pt-2" id="sidenav-main">
         <div class="scrollbar-inner">
@@ -163,7 +174,7 @@
                             
                         ?>
                         <li class="nav-item mr-2">
-                            <a href="<?=$navbar_link?>" class="nav-link text-uppercase text-sm <?=((isset($navbar[3])) ? 'primary' : '')?> <?=$navbar_active_class?>" style="font-weight: bolder">
+                            <a href="<?=site_url($navbar_link)?>" class="nav-link text-uppercase text-sm <?=((isset($navbar[3])) ? 'primary' : '')?> <?=$navbar_active_class?>" style="font-weight: bolder">
                                 <i class="<?=$navbar_icon?>"></i>
                                 <span class="ml-2 d-none d-md-inline-block"><?=$navbar_text?></span>
                             </a>
@@ -217,6 +228,8 @@
 
         <?php $this->renderSection('content')?>
     </div>
+    <?php $this->renderSection('modalContent')?>
+
     <!-- Argon Scripts -->
     <!-- Core -->
     <script src="<?=site_url('lib/argon-dashboard/vendor')?>/jquery/dist/jquery.min.js"></script>
@@ -230,7 +243,19 @@
     <!-- Argon JS -->
     <script src="<?=site_url('lib/argon-dashboard/js')?>/argon.js?v=1.2.0"></script>
     <script src="<?=site_url('js')?>/default.js"></script>
+    <?php 
+        if (isset($ui_js)) {
+            if (is_array($ui_js)) {
+                foreach ($ui_js as $js) {
+    ?>
+    <script src="<?=site_url($js)?>"></script>
+    <?php 
+                }
+            }
+        }
+    ?>
+
+    <?php $this->renderSection('jsContent')?>
 </body>
 
 </html>
-]

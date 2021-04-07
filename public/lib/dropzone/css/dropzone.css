@@ -1,0 +1,65 @@
+.dz-thumbnail {
+    width: 120px;
+}
+.dz-preview {
+    display: inline-block;
+    margin: 5px;
+}
+.dz-progress {
+    position: relative;
+    top: -10px;
+    height: 10px;
+    margin-bottom: 0;
+}
+.dz-remove {
+    background-color: #d9534f;
+    color: white;
+    font-size: 8pt;
+    width: 19px;
+    text-align: center;
+    border-radius: 20px;
+    padding: 3px 0px 1px 0px;
+    position: relative;
+    top: 25px;
+    cursor: pointer;
+    right: -95px;
+    margin-top: -26px;
+}
+.dz-wrapper {
+    padding: 24px 10px 10px 10px;
+    margin: 0;
+    border: 4px dashed #ddd;
+    text-align: center;
+    cursor: pointer;
+    color: #cacaca;
+    -webkit-transition: all 250ms ease;
+    -moz-transition: all 250ms ease;
+    -ms-transition: all 250ms ease;
+    -o-transition: all 250ms ease;
+    transition: all 250ms ease;
+}
+.dz-wrapper:hover {
+    padding: 24px 10px 10px 10px;
+    margin: 0;
+    border: 4px dashed #7d7d7d;
+    text-align: center;
+    color: #7d7d7d;
+}
+.dz-drag-hover {
+    padding: 24px 10px 10px 10px;
+    margin: 0;
+    border: 2px dashed #7d7d7d;
+    text-align: center;
+    color: #7d7d7d;
+}
+.dz-wrapper h4 {
+    margin: 0;
+    font-size: 18pt;
+    font-weight: bold;
+}
+.dz-wrapper span {
+
+}
+.dz-default {
+    border: 0 !important;
+}

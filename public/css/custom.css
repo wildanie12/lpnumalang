@@ -35,6 +35,15 @@
 	text-align: left !important;
 	border: 0 !important;
 }
+.table-condensed tr > * {
+	border: 0 !important;
+	padding: 0 !important;
+	text-align: left !important;
+	white-space: pre-wrap;
+	vertical-align: middle;
+    font-family: sans-serif;
+    font-size: 11pt;
+}
 
 
 .triangle {
@@ -62,4 +71,24 @@
 .btn-icon-only i {
 	position: relative;
 	top: 2px;
+}
+
+.lpnu-form label {
+	color: black !important;
+	font-weight: bold;
+}
+.lpnu-form .form-control, .lpnu-form .input-group-text {
+	color: #54595f !important;
+}
+
+.tail-select {
+	width: 100% !important;
+}
+.tail-select a.delete-item {
+	position: absolute;
+    right: 16px;
+}
+
+div.ck-editor__editable {
+	min-height: 250px
 }

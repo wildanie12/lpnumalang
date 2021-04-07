@@ -1,4 +1,4 @@
-<?php $this->extend('AdminTemplate/index'); ?>
+<?php $this->extend('template/admin'); ?>
 
 <?php $this->section('content'); ?>
 <!------------------------------------------------->
