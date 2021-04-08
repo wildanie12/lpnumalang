@@ -4,7 +4,7 @@ use CodeIgniter\Model;
 
 class KategoriModel extends Model
 {
-    protected $table      = 'kategori';
+    protected $table = 'kategori';
 
     protected $useSoftDeletes = true;
 

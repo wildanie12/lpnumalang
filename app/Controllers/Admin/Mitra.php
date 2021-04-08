@@ -35,7 +35,56 @@ class Mitra extends Controller
 			"Statistik|fas fa-chart-line|admin/mitra/statistik",
 		];
 		$data['ui_navbar_active'] = "List Mitra";
+		$wilayahModel = new WilayahModel();
+		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();		
 		return view('admin/mitra/list', $data);
+	}
+
+	public function ajax_list($ui)
+	{
+		$request = $this->request;
+		if ($ui != 'single') {
+
+			$mitraFiltered = new MitraModel();
+			$data['limit'] = $request->getGet('limit');
+			$data['page'] = $request->getGet('page');
+			$data['offset'] = ($data['page'] - 1) * $data['limit'];
+
+
+			$kecamatan = $request->getGet('kecamatan');
+			if ($kecamatan != '') {
+				$data['filter']['kecamatan'] = $kecamatan;
+				$mitraFiltered->where('kecamatan', strtoupper($kecamatan));
+			}
+			$kelurahan = $request->getGet('kelurahan');
+			if ($kelurahan != '') {
+				$data['filter']['kelurahan'] = $kelurahan;
+				$mitraFiltered->where('kelurahan', $kelurahan);
+			}
+			$status_usaha = $request->getGet('status_usaha');
+			if ($status_usaha != '') {
+				$data['filter']['status_usaha'] = $status_usaha;
+				$mitraFiltered->like('status_usaha', $status_usaha, 'both');
+			}
+			$jenis_usaha = $request->getGet('jenis_usaha');
+			if ($jenis_usaha != '') {
+				$data['filter']['jenis_usaha'] = $jenis_usaha;
+				$mitraFiltered->like('jenis_usaha', $jenis_usahn, 'both');
+			}
+			$pencarian = $request->getGet('pencarian');
+			$pencarian_berdasarkan = $request->getGet('pencarian_berdasarkan');
+			if ($pencarian != '') {
+				if ($pencarian_berdasarkan == '') {
+					$data['filter']['pencarian_berdasarkan'] = 'nama_pemilik';
+					$pencarian_berdasarkan = 'nama_pemilik';
+				}
+				$data['filter']['pencarian'] = $pencarian;
+				$mitraFiltered->like($pencarian_berdasarkan, $pencarian, 'both');
+			}
+			$mitraFiltered->orderBy('id', 'desc');
+			$data['data_mitra'] = $mitraFiltered->findAll($data['limit'], $data['offset']);
+			return view('admin/mitra/ajax/' . $ui, $data);
+		}
 	}
 
 	public function tambah()
@@ -111,7 +160,7 @@ class Mitra extends Controller
 		$request = $this->request;
 		$kecamatan = $request->getGet('kecamatan');
 		if ($kecamatan != '') {
-			$data_kelurahan = $data_kelurahan->where(['kecamatan' => $kecamatan])->findAll();
+			$data_kelurahan = $data_kelurahan->where(['kecamatan' => $kecamatan])->orderBy('kelurahan', 'asc')->findAll();
 			foreach ($data_kelurahan as $kelurahan) {
 				echo "<option value='${kelurahan['kelurahan']}'>" . ucfirst(strtolower($kelurahan['kelurahan'])) . "</option>";
 			}
@@ -156,6 +205,8 @@ class Mitra extends Controller
 			'status' => 'dipublikasikan',
 			'admin_username' => 'decoy'
 		]);
+
+		return redirect()->to(site_url('admin/mitra')); 
 	}
 
 	// Handler Galeri

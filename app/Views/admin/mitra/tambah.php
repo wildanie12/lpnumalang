@@ -292,7 +292,24 @@
 <script type="text/javascript">
 		
 	jQuery(document).ready(function($) {
-
+		var submitted = false;
+		$("form").submit(function(e) {
+			submitted = true;
+		});
+		window.onbeforeunload = function () {
+			if (!submitted) {
+				listGaleri.forEach(function(item, index) {
+					$.ajax({
+						url: '<?=site_url('admin/mitra/galeri_handler/delete')?>',
+						type: 'POST',
+						dataType: 'json',
+						data: {image: item}
+					})
+					.always(function() {
+					});
+				})
+			}
+		};
 		loadKelurahan($(".input-kecamatan").val());
 		$(".input-kecamatan").change(function(e) {
 			value = $(this).val()
@@ -345,13 +362,12 @@
 			value = $(this).val()
 			$(".fill-merek_dagang").html(value)
 		})
-		$("[name='status_usaha']").change(function(e) {
+		$("#tags-status_usaha").change(function(e) {
 			value = $(this).val()
 			$(".fill-status_usaha").html(value.join(', '))
 		})
-		$("[name='jenis_usaha']").change(function(e) {
+		$("#tags-jenis_usaha").change(function(e) {
 			value = $(this).val()
-			console.log(value)
 			$(".fill-jenis_usaha").html(value.join(', '))
 		})
 		$("[name='nama_barang']").change(function(e) {
@@ -509,18 +525,7 @@
 			});
 		}
 
-		window.onbeforeunload = function () {
-			listGaleri.forEach(function(item, index) {
-				$.ajax({
-					url: '<?=site_url('admin/mitra/galeri_handler/delete')?>',
-					type: 'POST',
-					dataType: 'json',
-					data: {image: item}
-				})
-				.always(function() {
-				});
-			})
-		};
+		
 
 
 
