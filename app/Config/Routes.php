@@ -39,9 +39,6 @@ $routes->add('/admin/mitra/', 'Admin\Mitra::list'); // Mitra Home
 $routes->get('/admin/mitra/ajax-list/(:any)', 'Admin\Mitra::ajax_list/$1');
 $routes->get('/admin/mitra/ajax-single', 'Admin\Mitra::ajax_list/');
 $routes->add('/admin/mitra/(:any)', 'Admin\Mitra::$1'); // Mitra Re-route method
-$routes->post('/admin/mitra/', 'Admin\Mitra::insert'); // Mitra Insert
-$routes->put('/admin/mitra/(:num)', 'Admin\Mitra::update/$1'); // Mitra Update
-$routes->delete('/admin/mitra/(:num)', 'Admin\Mitra::delete/$1'); // Mitra Delete
 
 $routes->add('/mitra', 'Mitra::index'); // Front-end Mitra (Cari Mitra);
 $routes->add('/mitra/list', 'Mitra::list'); // Front-end Mitra (List pencarian Mitra);
