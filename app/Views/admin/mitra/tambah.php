@@ -41,14 +41,13 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-city"></i></span>
 									</div>
-									<select class="form-control" name="kecamatan">
-										<option>Ampelgading</option>
-										<option>Gondanglegi</option>
-										<option>Bululawang</option>
-										<option>Pakis</option>
-										<option>Turen</option>
-										<option>Dau</option>
-									</select>
+										<?php
+											$options_kecamatan = [];
+											foreach ($data_kecamatan as $kecamatan) {
+												$options_kecamatan[$kecamatan['kecamatan']] = ucwords(strtolower($kecamatan['kecamatan']));
+											}
+											echo form_dropdown('kecamatan', $options_kecamatan, '', ['class' => 'form-control input-kecamatan']);
+										?>
 								</div>
 							</div>
 							<div class="col-sm-6 pl-sm-1 form-group mb-1 lpnu-form">
@@ -57,7 +56,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-city"></i></span>
 									</div>
-									<select class="form-control" name="kelurahan">
+									<select class="form-control" name="kelurahan" id="load-input-kelurahan">
 										<option>Putat Lor</option>
 										<option>Putat Kidul</option>
 										<option>Ganjaran</option>
@@ -172,12 +171,18 @@
 							<div class="card-body">
 								<div class="row">
 									<div class="col">
+										<input type="hidden" name="galeri">
 										<div id="dz-mitra" class="dz-wrapper">
 											<div class="dz-default dz-message">
 												<h4>SERET FILE DISINI</h4>
 								                <p>ATAU KLIK UNTUK UPLOAD</p>
 											</div>
 										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col d-flex justify-content-center flex-wrap" id="load-galeri">
+										
 									</div>
 								</div>
 							</div>
@@ -189,9 +194,6 @@
 						<div class="card bg-primary text-white">
 							<div class="card-body">
 								<div class="row">
-									<div class="col-lg-6">
-										<img src="<?=site_url('img_unavailable.png')?>" class="img-thumbnail">
-									</div>
 									<div class="col-lg-6">
 										<h3 class="text-white mt-2 mt-lg-0"><span class="fill-nama_pemilik">Nama Pemilik</span></h3>
 										<table class="table table-condensed text-white">
@@ -288,7 +290,29 @@
 
 <?php $this->section('jsContent') ?>
 <script type="text/javascript">
+		
 	jQuery(document).ready(function($) {
+
+		loadKelurahan($(".input-kecamatan").val());
+		$(".input-kecamatan").change(function(e) {
+			value = $(this).val()
+			loadKelurahan(value)
+		});
+		function loadKelurahan(kecamatan) {
+			$.ajax({
+				url: '<?=site_url('admin/mitra/dynamic_form_kelurahan')?>',
+				type: 'GET',
+				dataType: 'html',
+				data: {kecamatan: kecamatan},
+			})
+			.done(function(data) {
+				$("#load-input-kelurahan").html(data)
+			});
+		}
+
+
+
+
 		$("[name='nama_pemilik']").change(function(e) {
 			value = $(this).val()
 			$(".fill-nama_pemilik").html(value)
@@ -347,16 +371,26 @@
 			multiContainer: true,
 			search: true,
 			cbLoopItem: (item, group, search) => {
-				console.log(search);
+				console.log(item);
 				var newItem = document.createElement('li');
-				newItem.innerHTML = "<a href='#' class='delete-item btn btn-sm btn-danger rounded-circle' data-toggle='tooltip' title='Hapus kategori' data-value='" + item.value + "'><i class='fas fa-times'></i></a> " + item.value;
+				newItem.innerHTML = "<a href='#' class='delete-item btn btn-sm btn-danger rounded-circle' data-toggle='tooltip' title='Hapus kategori' data-value='" +item.description+ "'><i class='fas fa-times'></i></a> " + item.value;
 				return newItem;
 			},
 			cbComplete: () => {
 				$('.delete-item').click(function(e) {
 					e.preventDefault();
-					$('#tags-jenis_usaha option[value="' +$(this).data('value')+'"]').remove()
-					kategoriUsaha.reload();
+					value = $(this).data('value');
+					$.ajax({
+						url: '<?=site_url('admin/mitra/dynamic_form_write_jenis_usaha/delete')?>',
+						type: 'POST',
+						dataType: 'json',
+						data: {
+							id: value
+						}
+					})
+					.done(function(data) {
+						refreshJenisUsaha(true);
+					})
 				});
 			}
 		})
@@ -388,27 +422,107 @@
 	        $('#tambah-kategori').keypress(function(e) {
 	        	value = $(this).val();
 	        	if (e.which == 13) {
-	        		$('#tags-jenis_usaha').append("<option value='" + value + "'>" + value + "</option>");
-	        		kategoriUsaha.reload()
-	        		kategoriUsaha.open()
+	        		tambahJenisUsaha(value)
 		            $this.popover('hide')
 	        	}
 	        })
 
 	        $('.btn-tambah-kategori-submit').click(function(e) {
-	        	$('#tags-jenis_usaha').append("<option value='" + value + "'>" + value + "</option>");
-	    		kategoriUsaha.reload()
-	    		kategoriUsaha.open()
+	        	value = $('#tambah-kategori').val()
+        		tambahJenisUsaha(value)
 	            $this.popover('hide')
 	        });
 	    })
 
+	    function refreshJenisUsaha(open) {
+			$.ajax({
+				url: '<?=site_url('admin/mitra/dynamic_form_jenis_usaha')?>',
+				type: 'GET',
+				dataType: 'html',
+			})
+			.done(function(data) {
+				console.log(data);
+				$("#tags-jenis_usaha").html(data);
+				kategoriUsaha.reload();
+				if (typeof open !== 'undefined') {
+					kategoriUsaha.open();
+				}
+			});
+		}
+		function tambahJenisUsaha(kategori) {
+			$.ajax({
+				url: '<?=site_url('admin/mitra/dynamic_form_write_jenis_usaha/insert')?>',
+				type: 'POST',
+				dataType: 'html',
+				data: {kategori: kategori},
+			})
+			.done(function(data) {
+				refreshJenisUsaha(true);
+			})
+		}
+		refreshJenisUsaha();
 
+
+	    var listGaleri = []
 	    var dzMitra = new Dropzone('#dz-mitra', {
-	    	url: '<?=site_url('admin/mitra/upload')?>',
+	    	url: '<?=site_url('admin/mitra/galeri_handler/upload')?>',
 	    	addRemoveLinks: true,
-
 	    });
+	    dzMitra.on('success', function(file, response) {
+	    	dataResponse = JSON.parse(response)
+	    	listGaleri.push(dataResponse.url);
+	    	$("[name='galeri']").val(listGaleri.join('|'))
+	    	refreshGaleri();
+	    })
+		dzMitra.on('complete', function(file) {
+			$(".dz-progress").hide('slow');
+			this.removeFile(file);
+		});
+
+		function refreshGaleri() {
+			var htmlGaleri = ''
+			listGaleri.forEach(function(item, index) {
+				htmlGaleri += `	
+					<div style="max-width: 250px; position:relative">
+						<a style="position: absolute; top: 8px; right: 0;" href='#' data-gambar='${item}' class='galeri-hapus btn btn-danger btn-sm rounded-circle'><i class='fas fa-times'></i></a>
+						<img src="${item}" class="img-thumbnail">
+					</div>
+				`
+			})
+			$("#load-galeri").html(htmlGaleri)
+
+			$('.galeri-hapus').click(function(e) {
+				e.preventDefault();
+				value = $(this).data('gambar')
+				$.ajax({
+					url: '<?=site_url('admin/mitra/galeri_handler/delete')?>',
+					type: 'POST',
+					dataType: 'json',
+					data: {image: value}
+				})
+				.always(function() {
+					listGaleri = listGaleri.filter(function(item) {
+					    return item !== value
+					})
+					refreshGaleri();
+				});
+			});
+		}
+
+		window.onbeforeunload = function () {
+			listGaleri.forEach(function(item, index) {
+				$.ajax({
+					url: '<?=site_url('admin/mitra/galeri_handler/delete')?>',
+					type: 'POST',
+					dataType: 'json',
+					data: {image: item}
+				})
+				.always(function() {
+				});
+			})
+		};
+
+
 
 
 
@@ -494,6 +608,7 @@
 					})
 				}
 				listImagesOld = listImagesNew
+				$("[name='list_gambar']").val(listImagesNew.join('|'));
 			});
 		}
 
