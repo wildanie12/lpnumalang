@@ -72,10 +72,47 @@ class Mitra extends Controller
 		return view('admin/mitra/tambah', $data);
 	}
 
-
-	public function insert()
+	// Handler file gambar untuk CKEditor 5
+	public function article_image_handler()
 	{
-		// Insert DB
+		$request = $this->request;
+		$json = [];
+		$handle_mode = $request->getHeaderLine('x-handle-mode');
+		if ($handle_mode == "upload") {
+			$gambar = $request->getFile('upload');
+			if ($gambar->isValid()) {
+				$name = $gambar->getRandomName();
+				$gambar->move(ROOTPATH . 'public/images/mitra', $name);
+				$json['url'] = site_url('/images/mitra/') . $gambar->getName();
+			}
+			else {
+				$json['error']['message'] = 'Tidak ada gambar';
+			}
+		}
+		else if ($handle_mode == "delete") {
+			helper('filesystem');
+			$gambar = $request->getPost('images');
+			if ($gambar != '') {
+				$gambar_array = explode('|', $gambar);
+				foreach ($gambar_array as $gambar) {
+					$base_length = strlen(base_url());
+					$file_url = substr($gambar, $base_length);
+					print_r('.' . $file_url);
+					unlink('.' . $file_url);
+				}
+				$json['status'] = 'success';
+			}
+
+		}
+		echo json_encode($json);
+		die;
+	}
+
+	public function save()
+	{
+		$request = $this->request;
+		dd($this->request->getVar());
+		print_r($_POST['status_usaha']);
 	}
 
 	public function update()

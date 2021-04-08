@@ -2,7 +2,8 @@
 
 <?php $this->section('content'); ?>
 <div class="container-fluid mt-4">
-	<form action="" method="">
+	<form action="<?=site_url('admin/mitra/save')?>" method="post">
+		<?=csrf_field()?>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="card">
@@ -101,7 +102,7 @@
 						<div class="row">							
 							<div class="col-sm-6 pr-sm-1 form-group mb-1 lpnu-form">
 								<label class="form-control-label">Peran Ekonomi</label>
-								<select id="tags-status_usaha" class="form-control" name="status_usaha" multiple>
+								<select id="tags-status_usaha" class="form-control" name="status_usaha[]" multiple>
 									<option value="Produsen">Produsen</option>
 									<option value="Distributor">Distributor</option>
 									<option value="Agen">Agen</option>
@@ -112,7 +113,7 @@
 							</div>
 							<div class="col-sm-6 pl-sm-1 form-group mb-1 lpnu-form">
 								<label class="form-control-label">Kategori Usaha <a href="javascript:void(0)" class="btn-tambah-kategori" style='font-size:8pt'>[Tambah Kategori]</a></label>
-								<select id="tags-jenis_usaha" class="form-control" name="jenis_usaha" multiple>
+								<select id="tags-jenis_usaha" class="form-control" name="jenis_usaha[]" multiple>
 									<option value="Makanan & Minuman">Makanan & Minuman</option>
 									<option value="Warung Kopi">Warung Kopi</option>
 									<option value="Elektronik">Elektronik</option>
@@ -273,8 +274,9 @@
 							<textarea name="artikel" id="artikel-mitra" rows="8"></textarea>
 						</div>
 						<div class="form-group lpnu-form row justify-content-center">
-							<input type="submit" name="publikasikan" class="btn btn-primary col-8" value="Publikasikan">
-							<input type="button" name="simpan" class="btn btn-default ml-2 col-auto" value="Simpan sebagai Draft">
+							<div class="col">
+								<input type="submit" name="publikasikan" class="btn btn-primary btn-block" value="Publikasikan">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -437,9 +439,9 @@
 				"redo"
 			],
 			simpleUpload: {
-				uploadUrl: 'image_handler.php',
+				uploadUrl: '<?=site_url('admin/mitra/article_image_handler')?>',
 				headers: {
-					x_handle_mode: 'upload'
+					'x-handle-mode': 'upload'
 				}
 			},
 			image: {
@@ -474,12 +476,12 @@
 					imageList = new FormData()
 					imageList.append('images', listImageDeleted.join('|'));
 					$.ajax({
-						url: 'image_handler.php',
+						url: '<?=site_url('admin/mitra/article_image_handler')?>',
 						type: 'POST',
 						dataType: 'json',
 						data: imageList,
 						beforeSend: (request) => {
-							request.setRequestHeader('x_handle_mode', 'delete');
+							request.setRequestHeader('x-handle-mode', 'delete');
 						},
 						processData: false,
 						contentType: false,
