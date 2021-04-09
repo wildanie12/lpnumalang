@@ -18,7 +18,7 @@
     <meta name="author" content="Creative Tim">
     <title><?=((isset($ui_title)) ? $ui_title : '[Tidak ada Judul]')?></title>
     <!-- Favicon -->
-    <link rel="icon" href="<?=site_url('lib/argon-dashboard/img')?>/brand/favicon.png" type="image/png">
+    <link rel="icon" href="<?=site_url('LPNU LOGO XS.png')?>" type="image/png">
 
     <link rel="stylesheet" href="<?=site_url('lib/fontawesome-free-5.14.0-web/css/all.min.css')?>" type="text/css">
     <link rel="stylesheet" href="<?=site_url('lib/argon-dashboard/css')?>/argon.css?v=1.2.0" type="text/css">
@@ -68,7 +68,8 @@
                 <div class="collapse navbar-collapse" id="sidenav-collapse-main">
                     <!-- Nav items -->
                     <ul class="navbar-nav">
-                        <?php 
+                        <?php  
+                            $inactive = [0, 1, 4, 5];
                             if (empty($ui_sidebar)) {
                                 // Jika Sidebar belum di tulis di kontroller 
                                 $ui_sidebar = array(
@@ -92,12 +93,26 @@
                                 }
                             }
 
+                            $i = 0;
                             foreach ($ui_sidebar as $sidebar) {
                                 $sidebar = explode('|', $sidebar); 
                                 $sidebar_text = $sidebar[0];
                                 $sidebar_icon = $sidebar[1];
                                 $sidebar_color = $sidebar[2];
                                 $sidebar_link = $sidebar[3];
+
+                                foreach ($inactive as $index) {
+
+                                    if ($i == $index) {
+                                        $sidebar_color = 'warning';
+                                        $sidebar_link = 'javascript:void(0)';
+                                        break;
+                                    }
+                                    else {
+                                        $sidebar_link = $sidebar[3];
+                                        $sidebar_color = $sidebar[2];
+                                    }
+                                }
 
                                 $active_class = "";
                                 if (isset($ui_sidebar_active)) {
@@ -116,6 +131,7 @@
                             </a>
                         </li>
                         <?php 
+                                $i++;
                             }
                         ?>
                     </ul>
@@ -191,9 +207,17 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="media align-items-center">
-                                    <span class="avatar avatar-sm rounded-circle">
-                                        <img alt="Image placeholder" src="<?=site_url('images/profile/' . $userdata['avatar'])?>">
-                                    </span>
+                                    <div class="avatar avatar-sm rounded-circle" style="overflow: hidden; width: 35px; height: 35px;">
+                                        <?php 
+                                            $gambar = 'admin-default.png';
+                                            if ($userdata['avatar'] != '') {
+                                                if (file_exists('./images/profile/' . $userdata['avatar'])) {
+                                                    $gambar = $userdata['avatar'];
+                                                }
+                                            }
+                                        ?>
+                                        <img style="width: 100%" alt="Image placeholder" src="<?=site_url('images/profile/' . $gambar)?>" class="foto-profil">
+                                    </div>
                                     <div class="media-body  ml-2  d-none d-lg-block">
                                         <span class="mb-0 text-sm font-weight-bold"><?=$userdata['nama_lengkap']?></span>
                                     </div>
@@ -203,16 +227,12 @@
                                 <div class="dropdown-header noti-title">
                                     <h6 class="text-overflow m-0">Selamat datang!</h6>
                                 </div>
-                                <a href="#" class="dropdown-item">
-                                    <i class="mr-2 fas fa-user-circle" style="width: 15px"></i>
-                                    <span>Lihat Profil</span>
-                                </a>
-                                <a href="#" class="dropdown-item">
+                                <a href="<?=site_url('admin/pengguna/edit')?>" class="dropdown-item">
                                     <i class="mr-2 fas fa-user-edit" style="width: 15px"></i>
                                     <span>Edit Profil</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item">
+                                <a href="<?=site_url('logout')?>" class="dropdown-item">
                                     <i class="mr-2 fas fa-sign-out-alt" style="width: 15px"></i>
                                     <span>Logout</span>
                                 </a>

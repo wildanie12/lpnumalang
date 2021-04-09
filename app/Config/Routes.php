@@ -35,14 +35,24 @@ $routes->setAutoRoute(true);
 // * Admin/Mitra/List 
 $routes->add('/', 'Home::index');
 
+$routes->add('/admin', 'Admin\Mitra::list'); // Temporary
+
 $routes->add('/admin/mitra/', 'Admin\Mitra::list'); // Mitra Home
 $routes->get('/admin/mitra/ajax-list/(:any)', 'Admin\Mitra::ajax_list/$1');
 $routes->get('/admin/mitra/ajax-single', 'Admin\Mitra::ajax_list/');
 $routes->add('/admin/mitra/(:any)', 'Admin\Mitra::$1'); // Mitra Re-route method
 
+$routes->add('/admin/pengguna/', 'Admin\Admin::list'); // Admin Re-route method
+$routes->post('/admin/pengguna/', 'Admin\Admin::remove'); // Admin Re-route method
+$routes->add('/admin/pengguna/(:any)', 'Admin\Admin::$1'); // Admin Re-route method
+
 $routes->add('/mitra', 'Mitra::index'); // Front-end Mitra (Cari Mitra);
 $routes->add('/mitra/list', 'Mitra::list'); // Front-end Mitra (List pencarian Mitra);
 $routes->add('/mitra/(:any)', 'Mitra::detail/$1'); // Front-end Mitra (Detail Mitra);
+
+$routes->get('/login', 'Admin\Auth::index');
+$routes->post('/login', 'Admin\Auth::do_login');
+$routes->get('/logout', 'Admin\Auth::logout');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

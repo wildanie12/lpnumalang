@@ -6,23 +6,50 @@ use CodeIgniter\Controller;
 use App\models\MitraModel;
 use App\models\WilayahModel;
 use App\models\KategoriModel;
+use App\models\AdminModel;
 
 class Mitra extends Controller
 {
+	function auth() {
+		helper('cookie');
+		$logged_username = get_cookie('logged_username');
+		$logged_secret = get_cookie('logged_secret');
+    	$adminModel = new AdminModel();
+		$user = $adminModel->find($logged_username);
+		if ($logged_username != '' && $logged_secret != '') {
+			if ($user != '') {
+				if (password_verify($user['token'], $logged_secret)) {
+					return $user;
+				}
+				else {
+					session()->setFlashdata('admin_message', 'Anda telah keluar dari sistem, silahkan masuk kembali menggunakan akun anda');
+					return false;
+				}
+			}
+			else {
+				session()->setFlashdata('admin_message', 'Anda telah keluar dari sistem, silahkan masuk kembali menggunakan akun anda');
+				return false;
+			}
+		}
+		else {
+			session()->setFlashdata('admin_message', 'Anda telah keluar dari sistem, silahkan masuk kembali menggunakan akun anda');
+			return false;
+		}
+	}
 
 	public function list()
 	{	
-		$data['userdata'] = [
-			'username' => 'wildanie12',
-			'nama_lengkap' => 'M. Badar Wildanie',
-			'avatar' => 'admin-default.png',
-		];
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
 
 		$data['ui_title'] = "Data Mitra LPNU - LPNU Administrator";
 		$data['ui_sidebar'] = [
 			"Dashboard|fas fa-tachometer-alt|primary|admin",
 			"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
 			"Data Mitra|fas fa-store|primary|admin/mitra",
+			"Pengguna|fas fa-users|primary|admin/pengguna",
 			"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
 			"Konfigurasi|fas fa-cog|primary|admin/mitra",
 		];
@@ -42,6 +69,11 @@ class Mitra extends Controller
 
 	public function ajax_list($ui)
 	{
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$request = $this->request;
 		if ($ui != 'single') {
 
@@ -89,6 +121,11 @@ class Mitra extends Controller
 
 	public function tambah()
 	{
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$data['userdata'] = [
 			'username' => 'wildanie12',
 			'nama_lengkap' => 'M. Badar Wildanie',
@@ -109,6 +146,7 @@ class Mitra extends Controller
 			"Dashboard|fas fa-tachometer-alt|primary|admin",
 			"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
 			"Data Mitra|fas fa-store|primary|admin/mitra",
+			"Pengguna|fas fa-users|primary|admin/pengguna",
 			"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
 			"Konfigurasi|fas fa-cog|primary|admin/mitra",
 		];
@@ -132,6 +170,11 @@ class Mitra extends Controller
 
 	public function dynamic_form_jenis_usaha()
 	{
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$kategoriModel = new KategoriModel();
 		$kategoriModel = $kategoriModel->orderBy('id', 'desc')->findAll();
 		foreach ($kategoriModel as $kategori) {
@@ -141,6 +184,11 @@ class Mitra extends Controller
 
 	public function dynamic_form_write_jenis_usaha($mode)
 	{
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$request = $this->request;
 		$kategoriModel = new KategoriModel();
 		if ($mode == 'insert') {
@@ -156,6 +204,11 @@ class Mitra extends Controller
 
 	public function dynamic_form_kelurahan()
 	{
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$data_kelurahan = new WilayahModel();
 		$request = $this->request;
 		$kecamatan = $request->getGet('kecamatan');
@@ -169,6 +222,11 @@ class Mitra extends Controller
 
 	public function save()
 	{	
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		// print_r($mitraModel);
 		$request = $this->request;
 
@@ -202,7 +260,7 @@ class Mitra extends Controller
 			'file_artikel' => $file_artikel,
 			'galeri' => $request->getPost('galeri'),	
 			'status' => 'dipublikasikan',
-			'admin_username' => 'decoy'
+			'admin_username' => $data['userdata']['username']
 		]);
 
 		return redirect()->to(site_url('admin/mitra')); 
@@ -211,6 +269,11 @@ class Mitra extends Controller
 	// Handler Galeri
 	public function galeri_handler($mode)
 	{	
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$json = [];
 		$request = $this->request;
 		if ($mode == 'upload') {
@@ -244,6 +307,11 @@ class Mitra extends Controller
 	// Handler file gambar untuk CKEditor 5
 	public function article_image_handler()
 	{
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$request = $this->request;
 		$json = [];
 		$handle_mode = $request->getHeaderLine('x-handle-mode');
@@ -280,6 +348,11 @@ class Mitra extends Controller
 
 	public function edit($id)
 	{
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$mitraModel = new MitraModel();
 		$data['mitra'] = $mitraModel->find($id);
 		if ($data['mitra'] == '') {
@@ -306,6 +379,7 @@ class Mitra extends Controller
 				"Dashboard|fas fa-tachometer-alt|primary|admin",
 				"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
 				"Data Mitra|fas fa-store|primary|admin/mitra",
+			"Pengguna|fas fa-users|primary|admin/pengguna",
 				"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
 				"Konfigurasi|fas fa-cog|primary|admin/mitra",
 			];
@@ -331,6 +405,11 @@ class Mitra extends Controller
 
 	public function modify()
 	{
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
+		}
+		
 		$request = $this->request;
 
 		// Write file artikel
