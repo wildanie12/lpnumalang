@@ -123,7 +123,23 @@
 				<div class="row mb-2">
 					<div class="col d-flex flex-row align-items-center" style="font-size: 8pt; color: #099543; font-weight: 700;">
 						<div class="d-flex flex-row align-items-center mr-4" style="">
-							<img src="<?=site_url('images/profile/admin-default.png')?>" class="rounded-circle mr-1" style='height: 20px;'>
+							<?php 
+								$penulis_text = '';
+								$gambar = 'admin-default.png';
+								$penulis = $adminModel->find($mitra['admin_username']);
+								if (is_array($penulis)) {
+									$penulis_text = $penulis['nama_lengkap'];
+			                        if ($penulis['avatar'] != '') {
+			                            if (file_exists('./images/profile/' . $penulis['avatar'])) {
+			                                $gambar = $penulis['avatar'];
+			                            }
+			                        }
+								}
+								else {
+									$penulis_text = 'Tidak diketahui';
+								}
+		                    ?>
+							<img src="<?=site_url('images/profile/' . $gambar)?>" class="rounded-circle mr-1" style='height: 20px;'>
 							<span><?=$mitra['admin_username']?></span>
 						</div>
 						<span class="mr-4"><i class="fas fa-calendar-alt pr-2"></i><?=date('d-m-Y H:i:s', strtotime($mitra['created_at']))?></span>

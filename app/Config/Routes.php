@@ -33,7 +33,9 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 // * Admin/Mitra/List 
-$routes->add('/', 'Home::index');
+
+// $routes->add('/', 'Home::index');
+
 
 $routes->add('/admin', 'Admin\Mitra::list'); // Temporary
 
@@ -46,13 +48,20 @@ $routes->add('/admin/pengguna/', 'Admin\Admin::list'); // Admin Re-route method
 $routes->post('/admin/pengguna/', 'Admin\Admin::remove'); // Admin Re-route method
 $routes->add('/admin/pengguna/(:any)', 'Admin\Admin::$1'); // Admin Re-route method
 
-$routes->add('/mitra', 'Mitra::index'); // Front-end Mitra (Cari Mitra);
+// $routes->add('/mitra', 'Mitra::index'); // Front-end Mitra (Cari Mitra);
 $routes->add('/mitra/list', 'Mitra::list'); // Front-end Mitra (List pencarian Mitra);
+$routes->add('/mitra/ajax_list/(:segment)', 'Mitra::ajax_list/$1'); // Front-end Mitra (List pencarian Mitra);
+$routes->add('/mitra/dynamic_form_kelurahan', 'Mitra::dynamic_form_kelurahan'); // Front-end Mitra (List pencarian Mitra);
 $routes->add('/mitra/(:any)', 'Mitra::detail/$1'); // Front-end Mitra (Detail Mitra);
 
 $routes->get('/login', 'Admin\Auth::index');
 $routes->post('/login', 'Admin\Auth::do_login');
 $routes->get('/logout', 'Admin\Auth::logout');
+
+// Demo Purpose 
+$routes->add('/', 'Mitra::list');
+$routes->add('/mitra', 'Mitra::list'); // Front-end Mitra (Cari Mitra);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
