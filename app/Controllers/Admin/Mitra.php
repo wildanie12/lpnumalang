@@ -170,15 +170,17 @@ class Mitra extends Controller
 
 	public function dynamic_form_jenis_usaha()
 	{
-		$data['userdata'] = $this->auth();
-		if (!$data['userdata']) {
-			return redirect()->to(site_url('logout'));
-		}
+		if ($this->request->isAJAX()) {
+			$data['userdata'] = $this->auth();
+			if (!$data['userdata']) {
+				return redirect()->to(site_url('logout'));
+			}
 
-		$kategoriModel = new KategoriModel();
-		$kategoriModel = $kategoriModel->orderBy('id', 'desc')->findAll();
-		foreach ($kategoriModel as $kategori) {
-			echo "<option data-description='" .$kategori['id']. "' value='" .$kategori['kategori']. "'> " . ucfirst(strtolower($kategori['kategori'])) . "</option>";
+			$kategoriModel = new KategoriModel();
+			$kategoriModel = $kategoriModel->orderBy('id', 'desc')->findAll();
+			foreach ($kategoriModel as $kategori) {
+				echo "<option data-description='" .$kategori['id']. "' value='" .$kategori['kategori']. "'> " . ucfirst(strtolower($kategori['kategori'])) . "</option>";
+			}
 		}
 	}
 
