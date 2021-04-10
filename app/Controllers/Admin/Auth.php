@@ -2,7 +2,7 @@
 namespace App\Controllers\Admin;
 
 use CodeIgniter\Controller;
-use App\models\AdminModel;
+use App\Models\AdminModel;
 
 class Auth extends Controller
 {

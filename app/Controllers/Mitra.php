@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\models\MitraModel;
-use App\models\AdminModel;
-use App\models\WilayahModel;
+use App\Models\MitraModel;
+use App\Models\AdminModel;
+use App\Models\WilayahModel;
 
 class Mitra extends Controller
 {

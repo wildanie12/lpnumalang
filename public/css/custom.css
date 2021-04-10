@@ -129,6 +129,9 @@
 .lpnu-form .form-control, .lpnu-form .input-group-text {
 	color: #54595f !important;
 }
+.is-invalid.input-group-prepend .input-group-text {
+	border: 1px solid #fb6340 !important;
+}
 
 .tail-select {
 	width: 100% !important;
@@ -200,6 +203,9 @@ table.table-border-0 tr > * {
 }
 .article .image-style-align-left {
 	float: left;
+}
+.article .image-style-align-right {
+	float: right;
 }
 .article strong {
 	font-weight: 600

@@ -2,8 +2,8 @@
 namespace App\Controllers\Admin;
 
 use CodeIgniter\Controller;
-use App\models\AdminModel;
-use App\models\MitraModel;
+use App\Models\AdminModel;
+use App\Models\MitraModel;
 
 class Admin extends Controller
 {

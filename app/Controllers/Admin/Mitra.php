@@ -3,10 +3,10 @@
 namespace App\Controllers\Admin;
 
 use CodeIgniter\Controller;
-use App\models\MitraModel;
-use App\models\WilayahModel;
-use App\models\KategoriModel;
-use App\models\AdminModel;
+use App\Models\MitraModel;
+use App\Models\WilayahModel;
+use App\Models\KategoriModel;
+use App\Models\AdminModel;
 
 class Mitra extends Controller
 {
@@ -280,7 +280,7 @@ class Mitra extends Controller
 			$gambar = $request->getFile('file');
 			if ($gambar->isValid()) {
 				$name = $gambar->getRandomName();
-				$gambar->move(ROOTPATH . 'public/images/mitra/galeri', $name);
+				$upload = $gambar->move(ROOTPATH . 'public/images/mitra/galeri', $name);
 				$json['url'] = site_url('/images/mitra/galeri/') . $gambar->getName();
 			}
 			else {
