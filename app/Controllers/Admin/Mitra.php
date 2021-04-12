@@ -6,7 +6,6 @@ use CodeIgniter\Controller;
 use App\Models\MitraModel;
 use App\Models\WilayahModel;
 use App\Models\KategoriModel;
-use App\Models\AdminModel;
 
 class Mitra extends Controller
 {
@@ -14,7 +13,7 @@ class Mitra extends Controller
 		helper('cookie');
 		$logged_username = get_cookie('logged_username');
 		$logged_secret = get_cookie('logged_secret');
-    	$adminModel = new AdminModel();
+    	$adminModel = new \App\Models\AdminModel();
 		$user = $adminModel->find($logged_username);
 		if ($logged_username != '' && $logged_secret != '') {
 			if ($user != '') {
@@ -62,60 +61,63 @@ class Mitra extends Controller
 			"Statistik|fas fa-chart-line|admin/mitra/statistik",
 		];
 		$data['ui_navbar_active'] = "List Mitra";
-		$wilayahModel = new WilayahModel();
+		$wilayahModel = new \App\Models\WilayahModel();
 		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();		
 		return view('admin/mitra/list', $data);
 	}
 
 	public function ajax_list($ui)
 	{
-		$data['userdata'] = $this->auth();
-		if (!$data['userdata']) {
-			return redirect()->to(site_url('logout'));
-		}
-
-		$request = $this->request;
-		if ($ui != 'single') {
-
-			$mitraFiltered = new MitraModel();
-			$data['limit'] = $request->getGet('limit');
-			$data['page'] = $request->getGet('page');
-			$data['offset'] = ($data['page'] - 1) * $data['limit'];
-
-
-			$kecamatan = $request->getGet('kecamatan');
-			if ($kecamatan != '') {
-				$data['filter']['kecamatan'] = $kecamatan;
-				$mitraFiltered->where('kecamatan', strtoupper($kecamatan));
+		if ($this->request->isAJAX()) {
+			
+			$data['userdata'] = $this->auth();
+			if (!$data['userdata']) {
+				return redirect()->to(site_url('logout'));
 			}
-			$kelurahan = $request->getGet('kelurahan');
-			if ($kelurahan != '') {
-				$data['filter']['kelurahan'] = $kelurahan;
-				$mitraFiltered->where('kelurahan', $kelurahan);
-			}
-			$status_usaha = $request->getGet('status_usaha');
-			if ($status_usaha != '') {
-				$data['filter']['status_usaha'] = $status_usaha;
-				$mitraFiltered->like('status_usaha', $status_usaha, 'both');
-			}
-			$jenis_usaha = $request->getGet('jenis_usaha');
-			if ($jenis_usaha != '') {
-				$data['filter']['jenis_usaha'] = $jenis_usaha;
-				$mitraFiltered->like('jenis_usaha', $jenis_usahn, 'both');
-			}
-			$pencarian = $request->getGet('pencarian');
-			$pencarian_berdasarkan = $request->getGet('pencarian_berdasarkan');
-			if ($pencarian != '') {
-				if ($pencarian_berdasarkan == '') {
-					$data['filter']['pencarian_berdasarkan'] = 'nama_pemilik';
-					$pencarian_berdasarkan = 'nama_pemilik';
+
+			$request = $this->request;
+			if ($ui != 'single') {
+
+				$mitraFiltered = new MitraModel();
+				$data['limit'] = $request->getGet('limit');
+				$data['page'] = $request->getGet('page');
+				$data['offset'] = ($data['page'] - 1) * $data['limit'];
+
+
+				$kecamatan = $request->getGet('kecamatan');
+				if ($kecamatan != '') {
+					$data['filter']['kecamatan'] = $kecamatan;
+					$mitraFiltered->where('kecamatan', strtoupper($kecamatan));
 				}
-				$data['filter']['pencarian'] = $pencarian;
-				$mitraFiltered->like($pencarian_berdasarkan, $pencarian, 'both');
+				$kelurahan = $request->getGet('kelurahan');
+				if ($kelurahan != '') {
+					$data['filter']['kelurahan'] = $kelurahan;
+					$mitraFiltered->where('kelurahan', $kelurahan);
+				}
+				$status_usaha = $request->getGet('status_usaha');
+				if ($status_usaha != '') {
+					$data['filter']['status_usaha'] = $status_usaha;
+					$mitraFiltered->like('status_usaha', $status_usaha, 'both');
+				}
+				$jenis_usaha = $request->getGet('jenis_usaha');
+				if ($jenis_usaha != '') {
+					$data['filter']['jenis_usaha'] = $jenis_usaha;
+					$mitraFiltered->like('jenis_usaha', $jenis_usahn, 'both');
+				}
+				$pencarian = $request->getGet('pencarian');
+				$pencarian_berdasarkan = $request->getGet('pencarian_berdasarkan');
+				if ($pencarian != '') {
+					if ($pencarian_berdasarkan == '') {
+						$data['filter']['pencarian_berdasarkan'] = 'nama_pemilik';
+						$pencarian_berdasarkan = 'nama_pemilik';
+					}
+					$data['filter']['pencarian'] = $pencarian;
+					$mitraFiltered->like($pencarian_berdasarkan, $pencarian, 'both');
+				}
+				$mitraFiltered->orderBy('id', 'desc');
+				$data['data_mitra'] = $mitraFiltered->findAll($data['limit'], $data['offset']);
+				return view('admin/mitra/ajax/' . $ui, $data);
 			}
-			$mitraFiltered->orderBy('id', 'desc');
-			$data['data_mitra'] = $mitraFiltered->findAll($data['limit'], $data['offset']);
-			return view('admin/mitra/ajax/' . $ui, $data);
 		}
 	}
 
@@ -159,8 +161,8 @@ class Mitra extends Controller
 			"Statistik|fas fa-chart-line|admin/mitra/statistik",
 		];
 		$data['ui_navbar_active'] = "Tambah Mitra";
-		$wilayahModel = new WilayahModel();
-		$kategoriModel = new KategoriModel();
+		$wilayahModel = new \App\Models\WilayahModel();
+		$kategoriModel = new \App\Models\KategoriModel();
 		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();
 		$data['data_kategori'] = $kategoriModel->findAll();
 
@@ -176,7 +178,7 @@ class Mitra extends Controller
 				return redirect()->to(site_url('logout'));
 			}
 
-			$kategoriModel = new KategoriModel();
+			$kategoriModel = new \App\Models\KategoriModel();
 			$kategoriModel = $kategoriModel->orderBy('id', 'desc')->findAll();
 			foreach ($kategoriModel as $kategori) {
 				echo "<option data-description='" .$kategori['id']. "' value='" .$kategori['kategori']. "'> " . ucfirst(strtolower($kategori['kategori'])) . "</option>";
@@ -186,38 +188,42 @@ class Mitra extends Controller
 
 	public function dynamic_form_write_jenis_usaha($mode)
 	{
-		$data['userdata'] = $this->auth();
-		if (!$data['userdata']) {
-			return redirect()->to(site_url('logout'));
-		}
+		if ($this->request->isAJAX()) {
+			$data['userdata'] = $this->auth();
+			if (!$data['userdata']) {
+				return redirect()->to(site_url('logout'));
+			}
 
-		$request = $this->request;
-		$kategoriModel = new KategoriModel();
-		if ($mode == 'insert') {
-			$kategoriModel->save(['kategori' => $request->getPost('kategori')]);
+			$request = $this->request;
+			$kategoriModel = new \App\Models\KategoriModel();
+			if ($mode == 'insert') {
+				$kategoriModel->save(['kategori' => $request->getPost('kategori')]);
+			}
+			else if ($mode == 'delete') {
+				$id = $request->getPost('id');
+				$kategoriModel->delete($id);
+			}
+			echo json_encode(['status' => 'success']);
+			die;
 		}
-		else if ($mode == 'delete') {
-			$id = $request->getPost('id');
-			$kategoriModel->delete($id);
-		}
-		echo json_encode(['status' => 'success']);
-		die;
 	}
 
 	public function dynamic_form_kelurahan()
 	{
-		$data['userdata'] = $this->auth();
-		if (!$data['userdata']) {
-			return redirect()->to(site_url('logout'));
-		}
+		if ($this->request->isAJAX()) {
+			$data['userdata'] = $this->auth();
+			if (!$data['userdata']) {
+				return redirect()->to(site_url('logout'));
+			}
 
-		$data_kelurahan = new WilayahModel();
-		$request = $this->request;
-		$kecamatan = $request->getGet('kecamatan');
-		if ($kecamatan != '') {
-			$data_kelurahan = $data_kelurahan->where(['kecamatan' => $kecamatan])->orderBy('kelurahan', 'asc')->findAll();
-			foreach ($data_kelurahan as $kelurahan) {
-				echo "<option value='${kelurahan['kelurahan']}'>" . ucfirst(strtolower($kelurahan['kelurahan'])) . "</option>";
+			$data_kelurahan = new \App\Models\WilayahModel();
+			$request = $this->request;
+			$kecamatan = $request->getGet('kecamatan');
+			if ($kecamatan != '') {
+				$data_kelurahan = $data_kelurahan->where(['kecamatan' => $kecamatan])->orderBy('kelurahan', 'asc')->findAll();
+				foreach ($data_kelurahan as $kelurahan) {
+					echo "<option value='${kelurahan['kelurahan']}'>" . ucfirst(strtolower($kelurahan['kelurahan'])) . "</option>";
+				}
 			}
 		}
 	}
@@ -241,7 +247,7 @@ class Mitra extends Controller
 		}
 
 		
-		$mitraModel = new MitraModel();
+		$mitraModel = new \App\Models\MitraModel();
 		$mitraModel->save([
 			'nama_pemilik' => $request->getPost('nama_pemilik'),
 			'nomor_hp' => $request->getPost('nomor_hp'),
@@ -271,79 +277,84 @@ class Mitra extends Controller
 	// Handler Galeri
 	public function galeri_handler($mode)
 	{	
-		$data['userdata'] = $this->auth();
-		if (!$data['userdata']) {
-			return redirect()->to(site_url('logout'));
-		}
+		if ($this->request->isAJAX()) {
+			$data['userdata'] = $this->auth();
+			if (!$data['userdata']) {
+				return redirect()->to(site_url('logout'));
+			}
 
-		$json = [];
-		$request = $this->request;
-		if ($mode == 'upload') {
-			$gambar = $request->getFile('file');
-			if ($gambar->isValid()) {
-				$name = $gambar->getRandomName();
-				$upload = $gambar->move(ROOTPATH . 'public/images/mitra/galeri', $name);
-				$json['url'] = site_url('/images/mitra/galeri/') . $gambar->getName();
+			$json = [];
+			$request = $this->request;
+			if ($mode == 'upload') {
+				$gambar = $request->getFile('file');
+				if ($gambar->isValid()) {
+					$name = $gambar->getRandomName();
+					$upload = $gambar->move(ROOTPATH . 'public/images/mitra/galeri', $name);
+					$json['url'] = site_url('/images/mitra/galeri/') . $gambar->getName();
+				}
+				else {
+					$json['error']['message'] = 'Tidak ada gambar';
+				}
+			}
+			else if ($mode == 'delete') {
+				helper('filesystem');
+				$gambar = $request->getPost('image');
+				if ($gambar != '') {
+					$base_length = strlen(base_url());
+					$file_url = substr($gambar, $base_length);
+					unlink('.' . $file_url);
+					$json['status'] = 'success';
+				}
 			}
 			else {
-				$json['error']['message'] = 'Tidak ada gambar';
-			}
-		}
-		else if ($mode == 'delete') {
-			helper('filesystem');
-			$gambar = $request->getPost('image');
-			if ($gambar != '') {
-				$base_length = strlen(base_url());
-				$file_url = substr($gambar, $base_length);
-				unlink('.' . $file_url);
-				$json['status'] = 'success';
-			}
-		}
-		else {
 
+			}
+			echo json_encode($json);
+			die;
 		}
-		echo json_encode($json);
-		die;
 	}
 
 	// Handler file gambar untuk CKEditor 5
 	public function article_image_handler()
 	{
-		$data['userdata'] = $this->auth();
-		if (!$data['userdata']) {
-			return redirect()->to(site_url('logout'));
-		}
+		if ($this->request->isAJAX()) {
 
-		$request = $this->request;
-		$json = [];
-		$handle_mode = $request->getHeaderLine('x-handle-mode');
-		if ($handle_mode == "upload") {
-			$gambar = $request->getFile('upload');
-			if ($gambar->isValid()) {
-				$name = $gambar->getRandomName();
-				$gambar->move(ROOTPATH . 'public/images/mitra', $name);
-				$json['url'] = site_url('/images/mitra/') . $gambar->getName();
+			$data['userdata'] = $this->auth();
+			if (!$data['userdata']) {
+				return redirect()->to(site_url('logout'));
 			}
-			else {
-				$json['error']['message'] = 'Tidak ada gambar';
-			}
-		}
-		else if ($handle_mode == "delete") {
-			helper('filesystem');
-			$gambar = $request->getPost('images');
-			if ($gambar != '') {
-				$gambar_array = explode('|', $gambar);
-				foreach ($gambar_array as $gambar) {
-					$base_length = strlen(base_url());
-					$file_url = substr($gambar, $base_length);
-					unlink('.' . $file_url);
+
+			$request = $this->request;
+			$json = [];
+			$handle_mode = $request->getHeaderLine('x-handle-mode');
+			if ($handle_mode == "upload") {
+				$gambar = $request->getFile('upload');
+				if ($gambar->isValid()) {
+					$name = $gambar->getRandomName();
+					$gambar->move(ROOTPATH . 'public/images/mitra', $name);
+					$json['url'] = site_url('/images/mitra/') . $gambar->getName();
 				}
-				$json['status'] = 'success';
+				else {
+					$json['error']['message'] = 'Tidak ada gambar';
+				}
 			}
+			else if ($handle_mode == "delete") {
+				helper('filesystem');
+				$gambar = $request->getPost('images');
+				if ($gambar != '') {
+					$gambar_array = explode('|', $gambar);
+					foreach ($gambar_array as $gambar) {
+						$base_length = strlen(base_url());
+						$file_url = substr($gambar, $base_length);
+						unlink('.' . $file_url);
+					}
+					$json['status'] = 'success';
+				}
 
+			}
+			echo json_encode($json);
+			die;
 		}
-		echo json_encode($json);
-		die;
 	}
 
 	
@@ -355,7 +366,7 @@ class Mitra extends Controller
 			return redirect()->to(site_url('logout'));
 		}
 
-		$mitraModel = new MitraModel();
+		$mitraModel = new \App\Models\MitraModel();
 		$data['mitra'] = $mitraModel->find($id);
 		if ($data['mitra'] == '') {
 			return view('errors/html/error_404');
@@ -394,8 +405,8 @@ class Mitra extends Controller
 				"Statistik|fas fa-chart-line|admin/mitra/statistik",
 			];
 			$data['ui_navbar_active'] = "Tambah Mitra";
-			$wilayahModel = new WilayahModel();
-			$kategoriModel = new KategoriModel();
+			$wilayahModel = new \App\Models\WilayahModel();
+			$kategoriModel = new \App\Models\KategoriModel();
 			$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();
 			$data['data_kategori'] = $kategoriModel->findAll();
 
@@ -423,7 +434,7 @@ class Mitra extends Controller
 		}
 
 		
-		$mitraModel = new MitraModel();
+		$mitraModel = new \App\Models\MitraModel();
 		$mitraModel->save([
 			'id' => $request->getPost('id'),
 			'nama_pemilik' => $request->getPost('nama_pemilik'),

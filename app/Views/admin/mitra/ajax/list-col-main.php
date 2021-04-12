@@ -84,7 +84,7 @@
 				?>
 				<div class="col-6 center-crop" style="background-image: url('<?=$url_gambar?>'); margin-left: -20%; overflow: hidden">
 					<div class="triangle"><div></div></div>
-					<div class="row" style="position: absolute; right: 0; bottom: 6px;">
+					<div class="row" style="position: absolute; right: 0; bottom: 6px; z-index: 999">
 						<div class="col d-flex justify-content-center">
 							<a href="<?=site_url('mitra/' . $mitra['id'])?>" target="_blank" class="btn btn-secondary btn-icon-only rounded-circle" data-toggle='tooltip' title="Lihat Detail">
 								<i class="fas fa-eye"></i>
