@@ -242,7 +242,8 @@ class Mitra extends Controller
 		helper('filesystem');
 		$artikel = $request->getPost('artikel');
 		$file_artikel = 'mitra-' . time() . '-' . round(microtime(true) * 1000) . '-' . rand(0, 1000) . '.php';
-		if (!write_file('./files/mitra/' . $file_artikel, $artikel)) {
+		$uploadConfig = new \Config\Upload();
+		if (!write_file($uploadConfig->directoryMitraArtikelFile . '/' . $file_artikel, $artikel)) {
 			echo "Tidak bisa menambahkan file artikel";
 		}
 
@@ -429,7 +430,8 @@ class Mitra extends Controller
 		helper('filesystem');
 		$artikel = $request->getPost('artikel');
 		$file_artikel = $request->getPost('file_artikel');
-		if (!write_file('./files/mitra/' . $file_artikel, $artikel)) {
+		$uploadConfig = new \Config\Upload();
+		if (!write_file($uploadConfig->directoryMitraArtikelFile . '/' . $file_artikel, $artikel)) {
 			echo "Tidak bisa menambahkan file artikel";
 		}
 

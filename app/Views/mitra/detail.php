@@ -148,8 +148,22 @@
 				</div>
 				<div class="row">
 					<div class="col article">
-						<?=file_get_contents('./files/mitra/' . $mitra['file_artikel'])?>
-					</div>
+						<?php 
+							if (file_exists('./files/mitra/' . $mitra['file_artikel'])) {
+								$article = file_get_contents('./files/mitra/' . $mitra['file_artikel']);
+								if ($article != '') {
+									echo $article;
+								}
+								else {
+									echo "<div class='d-block text-center mt-5' style='font-size: 15pt'>- Tidak ada artikel terkait -</div>";
+								}
+							}
+							else {
+								echo "<div class='d-block text-center mt-5' style='font-size: 15pt'>- Tidak ada artikel terkait -</div>";
+
+							}
+						?>
+						</div>
 				</div>
 			</div> <!-- end col for article -->
 			<div class="col">

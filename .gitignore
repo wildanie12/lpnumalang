@@ -127,5 +127,7 @@ nb-configuration.xml
 
 
 # CodeIgniter Config
+app/Config/
 app/Config/*
+public/
 public/*
