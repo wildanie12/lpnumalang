@@ -36,7 +36,7 @@ jQuery(document).ready(function($) {
 $(".foto-profil").each(function() {
     hitungAspectRatio($(this))
 })
-function hitungAspectRatio($this) {
+function hitungAspectRatio($this, callbackLandscape, callbackPotrait, callbackSquare) {
         // Calculate aspect ratio and store it in HTML data- attribute
         width = parseInt($this[0].scrollWidth);
 		if (width <= 0) {
@@ -51,30 +51,45 @@ function hitungAspectRatio($this) {
 
         // Conditional statement
         if(aspectRatio > 1) {
-            // Image is landscape
-            $this.css({
-                width: "auto",
-                height: "100%",
-                top: 0,
-            });
+        	if (typeof callbackLandscape !== 'undefined') {
+        		callbackLandscape();
+        	}
+        	else {
+	            // Image is landscape
+	            $this.css({
+	                width: "auto",
+	                height: "100%",
+	                top: 0,
+	            });
+        	}
         } 
         else if (aspectRatio < 1) {
-            // Image is portrait
-            $this.css({
-                width: "100%",
-                height: "auto",
-                left: 0,
-                top: 0            
-            });
+        	if (typeof callbackPotrait !== 'undefined') {
+        		callbackPotrait();
+        	}
+        	else {
+	            // Image is portrait
+	            $this.css({
+	                width: "100%",
+	                height: "auto",
+	                left: 0,
+	                top: 0            
+	            });
+            }
         } 
         else {
-            // Image is square
-            $this.css({
-                width: "100%",
-                height: "auto",
-                left: 0,
-                top: 0            
-            });            
+        	if (typeof callbackSquare !== 'undefined') {
+        		callbackSquare();
+        	}
+        	else {
+	            // Image is square
+	            $this.css({
+	                width: "100%",
+	                height: "auto",
+	                left: 0,
+	                top: 0            
+	            });            
+        	}
         }
 
 

@@ -289,7 +289,8 @@ class Mitra extends Controller
 				$gambar = $request->getFile('file');
 				if ($gambar->isValid()) {
 					$name = $gambar->getRandomName();
-					$upload = $gambar->move(ROOTPATH . 'public/images/mitra/galeri', $name);
+					$uploadConfig = new \Config\Upload();
+					$upload = $gambar->move($uploadConfig->directoryMitraGaleri, $name);
 					$json['url'] = site_url('/images/mitra/galeri/') . $gambar->getName();
 				}
 				else {
@@ -317,44 +318,43 @@ class Mitra extends Controller
 	// Handler file gambar untuk CKEditor 5
 	public function article_image_handler()
 	{
-		if ($this->request->isAJAX()) {
 
-			$data['userdata'] = $this->auth();
-			if (!$data['userdata']) {
-				return redirect()->to(site_url('logout'));
-			}
-
-			$request = $this->request;
-			$json = [];
-			$handle_mode = $request->getHeaderLine('x-handle-mode');
-			if ($handle_mode == "upload") {
-				$gambar = $request->getFile('upload');
-				if ($gambar->isValid()) {
-					$name = $gambar->getRandomName();
-					$gambar->move(ROOTPATH . 'public/images/mitra', $name);
-					$json['url'] = site_url('/images/mitra/') . $gambar->getName();
-				}
-				else {
-					$json['error']['message'] = 'Tidak ada gambar';
-				}
-			}
-			else if ($handle_mode == "delete") {
-				helper('filesystem');
-				$gambar = $request->getPost('images');
-				if ($gambar != '') {
-					$gambar_array = explode('|', $gambar);
-					foreach ($gambar_array as $gambar) {
-						$base_length = strlen(base_url());
-						$file_url = substr($gambar, $base_length);
-						unlink('.' . $file_url);
-					}
-					$json['status'] = 'success';
-				}
-
-			}
-			echo json_encode($json);
-			die;
+		$data['userdata'] = $this->auth();
+		if (!$data['userdata']) {
+			return redirect()->to(site_url('logout'));
 		}
+
+		$request = $this->request;
+		$json = [];
+		$handle_mode = $request->getHeaderLine('x-handle-mode');
+		if ($handle_mode == "upload") {
+			$gambar = $request->getFile('upload');
+			if ($gambar->isValid()) {
+				$name = $gambar->getRandomName();
+				$uploadConfig = new \Config\Upload();
+				$gambar->move($uploadConfig->directoryMitraArtikel, $name);
+				$json['url'] = site_url('/images/mitra/') . $gambar->getName();
+			}
+			else {
+				$json['error']['message'] = 'Tidak ada gambar';
+			}
+		}
+		else if ($handle_mode == "delete") {
+			helper('filesystem');
+			$gambar = $request->getPost('images');
+			if ($gambar != '') {
+				$gambar_array = explode('|', $gambar);
+				foreach ($gambar_array as $gambar) {
+					$base_length = strlen(base_url());
+					$file_url = substr($gambar, $base_length);
+					unlink('.' . $file_url);
+				}
+				$json['status'] = 'success';
+			}
+
+		}
+		echo json_encode($json);
+		die;
 	}
 
 	

@@ -157,7 +157,8 @@ class Admin extends Controller
 		if ($avatar != '') {
 			if ($avatar->isValid()) {
 				$filename = $avatar->getRandomName();
-				$avatar->move(ROOTPATH . 'public/images/profile', $filename);
+				$uploadConfig = new \Config\Upload();
+				$avatar->move($uploadConfig->directoryAdminAvatar, $filename);
 				$data_insert['avatar'] = $filename;
 
 				unlink('./images/profile/' . $userdata['avatar']);
@@ -263,7 +264,8 @@ class Admin extends Controller
 		if ($avatar != '') {
 			if ($avatar->isValid()) {
 				$filename = $avatar->getRandomName();
-				$avatar->move(ROOTPATH . 'public/images/profile', $filename);
+				$uploadConfig = new \Config\Upload();
+				$avatar->move($uploadConfig->directoryAdminAvatar, $filename);
 				$data_update['avatar'] = $filename;
 
 				if ($userdata['avatar'] != '') {

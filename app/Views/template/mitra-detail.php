@@ -57,7 +57,7 @@ The above copyright notice and this permission notice shall be included in all c
     <nav class="navbar navbar-expand-lg fixed-top navbar-light " color-on-scroll="300">
         <div class="container-fluid">
             <div class="navbar-translate pl-md-4 pl-2 ">
-                <a class="navbar-brand p-0" href="https://demos.creative-tim.com/paper-kit/index.html" rel="tooltip" title="Coded by Creative Tim" data-placement="bottom" target="_blank">
+                <a class="navbar-brand p-0" href="<?=base_url()?>" rel="tooltip" title="Coded by Creative Tim" data-placement="bottom">
                     <img src="<?=site_url('Lpnu Logo Landscape Malang XS.png')?>" class="front-end-logo">
                 </a>
                 <button class="navbar-toggler navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">

@@ -4,7 +4,7 @@
 <?php $this->section('content') ?>
 <div class="container-fluid" style="box-shadow: 0px 0 18px 0px #00000024; position: relative;">
 	<div class="row">
-		<div class="col-md-6 pr-0 mr-0">
+		<div class="col-md-6 pr-0 pl-0 mr-0">
 			<ul id="mitra-gallery" class="light-slider">
 				<?php 
 					$galeri = explode('|', $mitra['galeri']);
@@ -188,8 +188,7 @@
 		thumbItem: 8,
 		loop: true,
 		auto: true,
-		pause: 2000,
+		pause: 3000,
 	})
-
 </script>
 <?php $this->endSection() ?>

@@ -33,7 +33,6 @@ class Mitra extends Controller
 				"Sub #2|fab fa-twitter|https://www.twitter.com/",
 				"Sub #3|fab fa-instagram|https://www.instagram.com/"
 			],
-			"Statistik|fas fa-chart-line|". site_url('mitra'),
 		];
 		return view('mitra/list', $data);
 	}
@@ -59,7 +58,6 @@ class Mitra extends Controller
 					"Sub #2|fab fa-twitter|https://www.twitter.com/",
 					"Sub #3|fab fa-instagram|https://www.instagram.com/"
 				],
-				"Statistik|fas fa-chart-line|". site_url('mitra'),
 			];
 			return view('mitra/detail', $data);
 		}

@@ -172,7 +172,7 @@ table.table-border-0 tr > * {
 .light-slider img {
     display: block;
     height: auto;
-    max-width: 100%;
+    width: 100%;
 }
 .lSSlideOuter .lSPager.lSGallery img {
 	width: 100%;
