@@ -148,6 +148,9 @@
 div.ck-editor__editable {
 	min-height: 250px
 }
+.dz-image, .dz-progress, .dz-error-message, .dz-success-mark, .dz-error-mark, .dz-remove, .dz-preview, .dz-processing, .dz-image-preview, .dz-success, .dz-complete {
+	display: none !important;
+}
 
 
 table.table-border-0 tr > * {
@@ -194,17 +197,23 @@ table.table-border-0 tr > * {
 	margin-bottom: 16px;
 }
 .article .image {
-	margin: 8px;
-
+	margin: 8px auto;
+	text-align: center;
+}
+.article figcaption {
+    font-style: italic;
+    font-size: 10pt;
+    padding-bottom: 8px;
 }
 .article .image img {
 	max-width: 100%;
-
 }
 .article .image-style-align-left {
+	margin-right: 8px;
 	float: left;
 }
 .article .image-style-align-right {
+	margin-left: 8px;
 	float: right;
 }
 .article strong {

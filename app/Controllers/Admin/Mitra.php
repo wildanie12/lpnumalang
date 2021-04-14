@@ -388,7 +388,7 @@ class Mitra extends Controller
 				"lib/dropzone/js/dropzone.js",
 				"lib/ckeditor5/build/ckeditor.js"
 			];
-			$data['ui_title'] = "Tambah data Mitra - LPNU Administrator";
+			$data['ui_title'] = "Edit data Mitra - LPNU Administrator";
 			$data['ui_sidebar'] = [
 				"Dashboard|fas fa-tachometer-alt|primary|admin",
 				"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
@@ -405,7 +405,7 @@ class Mitra extends Controller
 				"Laporan|fas fa-clipboard-list|admin/mitra/laporan",
 				"Statistik|fas fa-chart-line|admin/mitra/statistik",
 			];
-			$data['ui_navbar_active'] = "Tambah Mitra";
+			$data['ui_navbar_active'] = "";
 			$wilayahModel = new \App\Models\WilayahModel();
 			$kategoriModel = new \App\Models\KategoriModel();
 			$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();
@@ -458,7 +458,7 @@ class Mitra extends Controller
 			'file_artikel' => $file_artikel,
 			'galeri' => $request->getPost('galeri'),	
 			'status' => 'dipublikasikan',
-			'admin_username' => 'decoy'
+			'admin_username' => $data['userdata']['username']
 		]);
 
 		return redirect()->to(site_url('admin/mitra')); 
@@ -466,6 +466,28 @@ class Mitra extends Controller
 
 	public function delete()
 	{
-		// Delete DB
+		$request = $this->request;
+		$id = $request->getPost('id');
+		$mitraModel = new \App\Models\MitraModel();
+		$mitra = $mitraModel->find($id);
+
+
+		$uploadConfig = new \Config\Upload();
+		if ($mitra['galeri'] != '') {
+			$galeri = explode('|', $mitra['galeri']);
+			foreach ($galeri as $gambar) {
+				$base_length = strlen(base_url());
+				$file_url = substr($gambar, $base_length);
+				if (file_exists('.' . $file_url)) {
+					unlink('.' . $file_url);
+				}				
+			}
+
+			if (file_exists('./files/mitra/' . $mitra['file_artikel'])) {
+				unlink('./files/mitra/' . $mitra['file_artikel']);
+			}
+		}
+		$mitraModel->delete($id);
+		return redirect()->to(site_url('admin/mitra'));
 	}
 }

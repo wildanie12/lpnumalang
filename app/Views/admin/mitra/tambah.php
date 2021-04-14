@@ -5,7 +5,7 @@
 	<form action="<?=site_url('admin/mitra/save')?>" method="post">
 		<?=csrf_field()?>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col">
 				<div class="card">
 					<div class="card-header p-3" style="line-height: 8px">
 						<h3 class="card-title mb-0 pb-0">Tambah data Mitra LPNU Malang</h3>
@@ -57,12 +57,6 @@
 										<span class="input-group-text"><i class="fas fa-city"></i></span>
 									</div>
 									<select class="form-control" name="kelurahan" id="load-input-kelurahan">
-										<option>Putat Lor</option>
-										<option>Putat Kidul</option>
-										<option>Ganjaran</option>
-										<option>Sepanjang</option>
-										<option>Gondanglegi Wetan</option>
-										<option>Gondanglegi</option>
 									</select>
 								</div>
 							</div>
@@ -160,7 +154,9 @@
 					</div>
 				</div> <!-- end card -->
 			</div> <!-- end col -->
-			<div class="col-md-6">
+		</div>
+		<div class="row">
+			<div class="col">
 				<div class="row">
 					<div class="col">
 						<div class="card">
@@ -176,6 +172,11 @@
 											<div class="dz-default dz-message">
 												<h4>SERET FILE DISINI</h4>
 								                <p>ATAU KLIK UNTUK UPLOAD</p>
+								                <div class="progress" id="dz-upload-progress">
+												    <div class="progress-bar progress-bar-primary progress-bar-striped progress-bar-animated" role="progressbar" id="dz-upload-progress-bar" style="width: 0%">
+												        <span class="progress-text"></span>
+												    </div>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -189,81 +190,10 @@
 						</div> <!-- end card -->
 					</div>
 				</div>
-				<div class="row">
-					<div class="col">
-						<div class="card bg-primary text-white">
-							<div class="card-body">
-								<div class="row">
-									<div class="col-lg-6">
-										<h3 class="text-white mt-2 mt-lg-0"><span class="fill-nama_pemilik">Nama Pemilik</span></h3>
-										<table class="table table-condensed text-white">
-											<tr>
-												<th>Nomor HP</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-nomor_hp">-</span></td>
-											</tr>
-											<tr>
-												<th>Kecamatan</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-kecamatan">-</span></td>
-											</tr>
-											<tr>
-												<th>Kelurahan</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-kelurahan">-</span></td>
-											</tr>
-											<tr>
-												<th>Alamat</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-alamat_usaha">-</span></td>
-											</tr>
-											<tr>
-												<th>Ranting</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-ranting_nu">-</span></td>
-											</tr>
-											<tr>
-												<th>MWCNU</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-mwcnu">-</span></td>
-											</tr>
-										</table>
-									</div>
-								</div> <!-- end row identity -->
-								<div class="row mt-2">
-									<div class="col">
-										<table class="table table-condensed text-white">
-											<tr>
-												<th style="max-width: 40%">Merek Dagang</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-merek_dagang">-</span></td>
-											</tr>
-											<tr>
-												<th style="max-width: 40%">Peran Ekonomi</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-status_usaha">-</span></td>
-											</tr>
-											<tr>
-												<th style="max-width: 40%">Kategori Usaha</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-jenis_usaha">-</span></td>
-											</tr>
-											<tr>
-												<th style="max-width: 40%">Nama Barang</th>
-												<td style="width: 15px">:</td>
-												<td><span class="fill-nama_barang">-</span></td>
-											</tr>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> <!-- end col -->
-		</div> <!-- end row -->
+			</div>
+		</div>
 		<div class="row">
-			<div class="col">
+			<div class="col-lg-8">
 				<div class="card">
 					<div class="card-header p-3" style="line-height: 8px">
 						<h3 class="card-title mb-0 pb-0">Tulis artikel profil Mitra (opsional)</h3>
@@ -278,6 +208,75 @@
 						<div class="form-group lpnu-form row justify-content-center">
 							<div class="col">
 								<input type="submit" name="publikasikan" class="btn btn-primary btn-block" value="Publikasikan">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card bg-primary text-white">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-6">
+								<h3 class="text-white mt-2 mt-lg-0"><span class="fill-nama_pemilik">Nama Pemilik</span></h3>
+								<table class="table table-condensed text-white">
+									<tr>
+										<th>Nomor HP</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-nomor_hp">-</span></td>
+									</tr>
+									<tr>
+										<th>Kecamatan</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-kecamatan">-</span></td>
+									</tr>
+									<tr>
+										<th>Kelurahan</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-kelurahan">-</span></td>
+									</tr>
+									<tr>
+										<th>Alamat</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-alamat_usaha">-</span></td>
+									</tr>
+									<tr>
+										<th>Ranting</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-ranting_nu">-</span></td>
+									</tr>
+									<tr>
+										<th>MWCNU</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-mwcnu">-</span></td>
+									</tr>
+								</table>
+							</div>
+						</div> <!-- end row identity -->
+						<div class="row mt-2">
+							<div class="col">
+								<table class="table table-condensed text-white">
+									<tr>
+										<th style="max-width: 40%">Merek Dagang</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-merek_dagang">-</span></td>
+									</tr>
+									<tr>
+										<th style="max-width: 40%">Peran Ekonomi</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-status_usaha">-</span></td>
+									</tr>
+									<tr>
+										<th style="max-width: 40%">Kategori Usaha</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-jenis_usaha">-</span></td>
+									</tr>
+									<tr>
+										<th style="max-width: 40%">Nama Barang</th>
+										<td style="width: 15px">:</td>
+										<td><span class="fill-nama_barang">-</span></td>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -494,6 +493,14 @@
 			$(".dz-progress").hide('slow');
 			this.removeFile(file);
 		});
+		$("#dz-upload-progress").hide();
+		dzMitra.on('uploadprogress', function(file, progress, byteSent) {
+			$("#dz-upload-progress").show();
+			$("#dz-upload-progress-bar").css('width',  Math.floor(progress) + '%');
+			if (progress >= 100) {
+				$("#dz-upload-progress").hide();
+			}
+		})
 
 		function refreshGaleri() {
 			var htmlGaleri = ''

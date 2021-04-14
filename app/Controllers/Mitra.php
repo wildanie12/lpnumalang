@@ -18,7 +18,7 @@ class Mitra extends Controller
 	{
 		$wilayahModel = new WilayahModel();
 		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();
-		$data['ui_title'] = "Toserba Mulyadi Elektro - Mitra LPNU Malang";
+		$data['ui_title'] = "Mitra-mitra LPNU Malang - lpnumalang.or.id";
 		$data['ui_css'] = [
 			"lib/light-slider/css/lightslider.min.css"
 		];
@@ -43,7 +43,29 @@ class Mitra extends Controller
 		$data['adminModel'] = new AdminModel();
 		$data['mitra'] = $mitraModel->find($id);
 		if ($data['mitra'] != '') {
-			$data['ui_title'] = "Toserba Mulyadi Elektro - Mitra LPNU Malang";
+			// Pemberian Judul
+			$judul = '';
+			if ($data['mitra']['merek_dagang'] != '') {
+				$judul = $data['mitra']['merek_dagang'];
+			}
+			else if ($data['mitra']['nama_barang'] != '') {
+				$judul = $data['mitra']['nama_barang'];
+			}
+			else if ($data['mitra']['jenis_usaha'] != '') {
+				$jenis_usaha = explode('|', $data['mitra']['jenis_usaha']);
+				$i = 1;
+				$judul = '';
+				foreach ($jenis_usaha as $jenis) {
+					$judul .= $jenis . ', ';
+					if ($i >= 3) {
+						break;
+					}
+					$i++;
+				}
+				rtrim($judul, ', ');
+			}
+
+			$data['ui_title'] = $judul . " - LPNU Malang";
 			$data['ui_css'] = [
 				"lib/light-slider/css/lightslider.min.css"
 			];

@@ -119,6 +119,11 @@
 								<div class="progress-bar bg-success progress-bar-animated progress-bar-striped" style="width: 100%"></div>
 							</div>
 						</div>
+						<div class="d-none">
+							<form action="<?=site_url('admin/mitra/delete')?>" method="post" id="form-delete">
+								<input type="hidden" name="id">
+							</form>
+						</div>
 					</div> <!-- end card-body -->
 				</div> <!-- end card -->
 			</div> <!-- end col -->
@@ -200,9 +205,20 @@
 			$.getScript("<?=site_url('js/default.js')?>")
 			$(".progress").css('visibility', 'hidden');
 			$("#load-list-mitra").html(data);
+			eventAfterLoadMitra();
 		})
 	}
 	refreshMitra();
+
+	function eventAfterLoadMitra() {
+		$(".btn-content-delete").click(function(e) {
+			if (confirm('Anda yakin?')) {
+				$("#form-delete [name='id']").val($(this).data('id'));
+				$("#form-delete").submit();
+			}
+		});
+	}
+
 	$(".filter-page").change(function(e) {
 		value = $(this).val()
 		if (value >= 1) {

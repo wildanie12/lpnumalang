@@ -8,10 +8,20 @@
 			<ul id="mitra-gallery" class="light-slider">
 				<?php 
 					$galeri = explode('|', $mitra['galeri']);
-					foreach ($galeri as $gambar) {
+					if ($mitra['galeri'] != '') {
+						foreach ($galeri as $gambar) {
+						
 				?>
 				<li data-thumb="<?=$gambar?>">
 					<img src="<?=$gambar?>">
+				</li>
+				<?php 
+						}
+					}
+					else {
+				?>
+				<li data-thumb="<?=site_url('img_unavailable.png')?>">
+					<img src="<?=site_url('img_unavailable.png')?>" style="max-height: 400px; max-width: 400px;">
 				</li>
 				<?php 
 					}
@@ -198,11 +208,11 @@
 	$("#mitra-gallery").lightSlider({
 		gallery: true,
 		item: 1,
-
+        adaptiveHeight:true,
 		thumbItem: 8,
 		loop: true,
-		auto: true,
-		pause: 3000,
+		// auto: true,
+		// pause: 3000,
 	})
 </script>
 <?php $this->endSection() ?>
