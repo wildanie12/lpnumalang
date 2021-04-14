@@ -107,9 +107,6 @@
 							<div class="col-sm-6 pl-sm-1 form-group mb-1 lpnu-form">
 								<label class="form-control-label">Kategori Usaha <a href="javascript:void(0)" class="btn-tambah-kategori" style='font-size:8pt'>[Tambah Kategori]</a></label>
 								<select id="tags-jenis_usaha" class="form-control" name="jenis_usaha[]" multiple>
-									<option value="Makanan & Minuman">Makanan & Minuman</option>
-									<option value="Warung Kopi">Warung Kopi</option>
-									<option value="Elektronik">Elektronik</option>
 								</select>
 								<span class="text-muted text-xs">Anda bisa tambah kategori jika tidak ada</span>
 							</div>

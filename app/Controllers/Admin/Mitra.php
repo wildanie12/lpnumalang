@@ -63,6 +63,9 @@ class Mitra extends Controller
 		$data['ui_navbar_active'] = "List Mitra";
 		$wilayahModel = new \App\Models\WilayahModel();
 		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();		
+
+		$kategoriModel = new \App\Models\KategoriModel();
+		$data['data_kategori'] = $kategoriModel->findAll();
 		return view('admin/mitra/list', $data);
 	}
 
@@ -102,7 +105,7 @@ class Mitra extends Controller
 				$jenis_usaha = $request->getGet('jenis_usaha');
 				if ($jenis_usaha != '') {
 					$data['filter']['jenis_usaha'] = $jenis_usaha;
-					$mitraFiltered->like('jenis_usaha', $jenis_usahn, 'both');
+					$mitraFiltered->like('jenis_usaha', $jenis_usaha, 'both');
 				}
 				$pencarian = $request->getGet('pencarian');
 				$pencarian_berdasarkan = $request->getGet('pencarian_berdasarkan');

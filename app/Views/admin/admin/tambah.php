@@ -2,7 +2,7 @@
 
 <?php $this->section('content'); ?>
 <div class="container-fluid mt-4">
-    <form action="<?=site_url('admin/admin/save')?>" method="post" enctype="multipart/form-data">
+    <form action="<?=site_url('admin/pengguna/save')?>" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-8">
                 <div class="card">

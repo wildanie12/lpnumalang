@@ -8,7 +8,7 @@
 			<div class="col">
 				<div class="card">
 					<div class="card-header p-3" style="line-height: 8px">
-						<h3 class="card-title mb-0 pb-0">Tambah data Mitra LPNU Malang</h3>
+						<h3 class="card-title mb-0 pb-0">Edit data Mitra LPNU Malang</h3>
 						<span class="text-muted text-uppercase font-weight-bold" style="font-size: 8pt;">Masukkan identitas, gambar, dan artikel profil di formulir berikut</span>
 					</div>
 					<div class="card-body">

@@ -47,10 +47,11 @@
 									<label style="font-weight: 800" class="form-control-label text-dark mb-0">Kategori Usaha</label>
 									<select class="form-control form-control-sm" id="filter-jenis_usaha">
 										<option value="">- Pilih kategori -</option>
-										<option value="">Makanan & Minuman</option>
-										<option value="">Elektronik</option>
-										<option value="">Warung Kopi</option>
-										<option value="">Peternakan Ayam</option>
+										<?php 
+											foreach ($data_kategori as $kategori) {
+												echo "<option value='" . $kategori['kategori'] . "'>" . $kategori['kategori'] . "</option>";
+											}
+										?>
 									</select>
 								</div>
 							</div> <!-- end col -->
@@ -249,6 +250,7 @@
 		}
 		else {
 			delete mitraParams.kecamatan
+			delete mitraParams.kelurahan
 		}
 		refreshMitra();
 	})

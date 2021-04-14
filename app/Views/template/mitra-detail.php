@@ -144,7 +144,7 @@ The above copyright notice and this permission notice shall be included in all c
     <div class="main">
         <?php $this->renderSection('content')?>
     </div>
-    <footer class="bg-dark">
+    <footer class="bg-dark mt-4">
         <div class="container-fluid container-wildanie py-4">
             <div class="row justify-content-center align-items-center">
                 <div class="col-sm-6 d-flex flex-row align-items-center">
