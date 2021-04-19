@@ -155,13 +155,17 @@ class Admin extends Controller
 		}
 		$avatar = $request->getFile('avatar');
 		if ($avatar != '') {
+			$avatar = $request->getFile('avatar');
 			if ($avatar->isValid()) {
 				$filename = $avatar->getRandomName();
 				$uploadConfig = new \Config\Upload();
 				$avatar->move($uploadConfig->directoryAdminAvatar, $filename);
-				$data_insert['avatar'] = $filename;
 
-				unlink('./images/profile/' . $userdata['avatar']);
+				$imagick = \Config\Services::image();
+				$imagick->withFile($uploadConfig->directoryAdminAvatar . '/' . $filename)
+					->resize(1000, 800, true)
+					->save($uploadConfig->directoryAdminAvatar . '/' . $filename, 100);
+				$data_insert['avatar'] = $filename;
 			}
 		}
 		else {
@@ -260,28 +264,16 @@ class Admin extends Controller
 		if ($password != '') {
 			$data_update['password'] = password_hash($password, PASSWORD_DEFAULT);
 		}
-		$avatar = $request->getFile('avatar');
-		if ($avatar != '') {
-			if ($avatar->isValid()) {
-				$filename = $avatar->getRandomName();
-				$uploadConfig = new \Config\Upload();
-				$avatar->move($uploadConfig->directoryAdminAvatar, $filename);
-				$data_update['avatar'] = $filename;
-
-				if ($userdata['avatar'] != '') {
-					if ($userdata['avatar'] != 'admin-default.png') {
-						if (file_exists('./images/profile/' . $userdata['avatar'])) {
-							unlink('./images/profile/' . $userdata['avatar']);
-						}
-					}
-				}
-			}
-		}
 		$adminModel->update($userdata['username'], $data_update);
 		return redirect()->to(site_url('admin/pengguna/edit'));
 	}
 	public function remove()
 	{
+		$userdata = $this->auth();
+		if (!$userdata) {
+			return redirect()->to(site_url('logout'));
+		}
+
 		$request = $this->request;
 		$username = $request->getPost('username');
 		if ($username != '') {
@@ -289,6 +281,43 @@ class Admin extends Controller
 			$adminModel->delete($username);
 		}
 		return redirect()->to(site_url('admin/pengguna'));
+	}
+	public function upload_avatar()
+	{
+		$userdata = $this->auth();
+		if (!$userdata) {
+			return redirect()->to(site_url('logout'));
+		}
+
+		$request = $this->request;
+		if ($request->isAJAX()) {
+			// print_r($request->getVar());
+			$avatar = $request->getFile('avatar');
+			if ($avatar->isValid()) {
+				$filename = $avatar->getRandomName();
+				$uploadConfig = new \Config\Upload();
+				$avatar->move($uploadConfig->directoryAdminAvatar, $filename);
+
+				$imagick = \Config\Services::image();
+				$imagick->withFile($uploadConfig->directoryAdminAvatar . '/' . $filename)
+					->resize(1000, 800, true)
+					->save($uploadConfig->directoryAdminAvatar . '/' . $filename, 100);
+
+				$adminModel = new \App\Models\AdminModel();
+				$username = $request->getPost('username');
+				$admin = $adminModel->find($username);
+				if ($admin['avatar'] != '') {
+					if ($admin['avatar'] != 'admin-default.png') {
+						if (file_exists($uploadConfig->directoryAdminAvatar . '/' . $admin['avatar'])) {
+							unlink($uploadConfig->directoryAdminAvatar . '/' . $admin['avatar']);
+						}
+					}
+				}
+
+				$adminModel->update($username, ['avatar' => $filename]);
+			}
+			echo json_encode(['status' => 'success', 'url' => site_url('images/profile/' . $filename)]);
+		}
 	}
 }
 

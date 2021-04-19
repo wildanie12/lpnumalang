@@ -61,19 +61,15 @@
 						$galeri = explode('|', $mitra['galeri']);
 						if (is_array($galeri)) {
 							foreach ($galeri as $gambar) {
-								$base_length = strlen(base_url());
-								$file_url = substr($gambar, $base_length);
-								if (file_exists('.' . $file_url)) {
-									$url_gambar = $gambar;
+								if (file_exists('./images/mitra/galeri/' . $gambar)) {
+									$url_gambar = site_url('/images/mitra/galeri/') . $gambar;
 									break;
 								}
 							}
 						}
 						else {
-							$base_length = strlen(base_url());
-							$file_url = substr($mitra['galeri'], $base_length);
-							if (file_exists('.' . $file_url)) {
-								$url_gambar = $mitra['galeri'];
+							if (file_exists('./images/mitra/galeri/' . $mitra['galeri'])) {
+								$url_gambar = site_url('/images/mitra/galeri/') . $mitra['galeri'];
 								break;
 							}
 						}

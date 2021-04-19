@@ -131,12 +131,6 @@ class Mitra extends Controller
 			return redirect()->to(site_url('logout'));
 		}
 
-		$data['userdata'] = [
-			'username' => 'wildanie12',
-			'nama_lengkap' => 'M. Badar Wildanie',
-			'avatar' => 'admin-default.png',
-		];
-
 		$data['ui_css'] = [
 			"lib/tail-select/css/tail.select-default.css",
 			"lib/dropzone/css/dropzone.css",
@@ -288,14 +282,19 @@ class Mitra extends Controller
 			}
 
 			$json = [];
+			$uploadConfig = new \Config\Upload();
 			$request = $this->request;
 			if ($mode == 'upload') {
 				$gambar = $request->getFile('file');
 				if ($gambar->isValid()) {
 					$name = $gambar->getRandomName();
-					$uploadConfig = new \Config\Upload();
+
 					$upload = $gambar->move($uploadConfig->directoryMitraGaleri, $name);
-					$json['url'] = site_url('/images/mitra/galeri/') . $gambar->getName();
+					$imagick = \Config\Services::image();
+					$imagick->withFile($uploadConfig->directoryMitraGaleri . '/' . $name)
+						->resize(1000, 800, true)
+						->save($uploadConfig->directoryMitraGaleri . '/' . $name, 100);
+					$json['url'] = $gambar->getName();
 				}
 				else {
 					$json['error']['message'] = 'Tidak ada gambar';
@@ -305,9 +304,7 @@ class Mitra extends Controller
 				helper('filesystem');
 				$gambar = $request->getPost('image');
 				if ($gambar != '') {
-					$base_length = strlen(base_url());
-					$file_url = substr($gambar, $base_length);
-					unlink('.' . $file_url);
+					unlink($uploadConfig->directoryMitraGaleri . '/' . $gambar);
 					$json['status'] = 'success';
 				}
 			}
@@ -337,6 +334,11 @@ class Mitra extends Controller
 				$name = $gambar->getRandomName();
 				$uploadConfig = new \Config\Upload();
 				$gambar->move($uploadConfig->directoryMitraArtikel, $name);
+
+				$imagick = \Config\Services::image();
+				$imagick->withFile($uploadConfig->directoryMitraArtikel . '/' . $name)
+					->resize(1000, 800, true)
+					->save($uploadConfig->directoryMitraArtikel . '/' . $name, 100);
 				$json['url'] = site_url('/images/mitra/') . $gambar->getName();
 			}
 			else {
@@ -376,12 +378,6 @@ class Mitra extends Controller
 			return view('errors/html/error_404');
 		}
 		else {
-			$data['userdata'] = [
-				'username' => 'wildanie12',
-				'nama_lengkap' => 'M. Badar Wildanie',
-				'avatar' => 'admin-default.png',
-			];
-
 			$data['ui_css'] = [
 				"lib/tail-select/css/tail.select-default.css",
 				"lib/dropzone/css/dropzone.css",

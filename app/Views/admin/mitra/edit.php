@@ -287,6 +287,8 @@
 <script type="text/javascript">
 		
 	jQuery(document).ready(function($) {
+		var host = '<?=site_url('/images/mitra/galeri/')?>';
+
 		loadKelurahan('<?=$mitra['kecamatan']?>', function() {
 			$('#load-input-kelurahan').val('<?=$mitra['kelurahan']?>')
 		});
@@ -533,7 +535,7 @@
 				htmlGaleri += `	
 					<div style="max-width: 250px; position:relative">
 						<a style="position: absolute; top: 8px; right: 0;" href='#' data-gambar='${item}' class='galeri-hapus btn btn-danger btn-sm rounded-circle'><i class='fas fa-times'></i></a>
-						<img src="${item}" class="img-thumbnail">
+						<img src="${host}/${item}" class="img-thumbnail">
 					</div>
 				`
 			})

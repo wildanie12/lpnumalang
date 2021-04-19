@@ -9,6 +9,7 @@ Copyright 2019 Creative Tim (https://www.creative-tim.com)
 Licensed under MIT (https://github.com/creativetimofficial/paper-kit-2/blob/master/LICENSE.md)
 
 Coded by Creative Tim
+Website Developed by Badar Wildanie (082228111059)
 
 =========================================================
 
@@ -21,7 +22,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="<?=site_url('lib/paper-kit-2')?>/img//apple-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="<?=site_url('LPNU LOGO XS.png')?>">
     <link rel="icon" type="image/png" href="<?=site_url('LPNU LOGO XS.png')?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
@@ -57,7 +58,7 @@ The above copyright notice and this permission notice shall be included in all c
     <nav class="navbar navbar-expand-lg fixed-top navbar-light " color-on-scroll="300">
         <div class="container-fluid">
             <div class="navbar-translate pl-md-4 pl-2 ">
-                <a class="navbar-brand p-0" href="<?=base_url()?>" rel="tooltip" title="Coded by Creative Tim" data-placement="bottom">
+                <a class="navbar-brand p-0" href="<?=base_url()?>" rel="tooltip" title="Beranda LPNU Malang" data-placement="bottom">
                     <img src="<?=site_url('Lpnu Logo Landscape Malang XS.png')?>" class="front-end-logo">
                 </a>
                 <button class="navbar-toggler navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -246,6 +247,8 @@ The above copyright notice and this permission notice shall be included in all c
     <script src="<?=site_url('lib/paper-kit-2')?>/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
     <!-- Control Center for Paper Kit: parallax effects, scripts for the example pages etc -->
     <script src="<?=site_url('lib/paper-kit-2')?>/js/paper-kit.js?v=2.2.0" type="text/javascript"></script>
+    <script src="<?=site_url('js/default.js')?>" type="text/javascript"></script>
+    <script src="<?=site_url('js/dynamic-img.js')?>" type="text/javascript"></script>
     <?php 
         if (isset($ui_js)) {
             if (is_array($ui_js)) {

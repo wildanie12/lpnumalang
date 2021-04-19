@@ -8,6 +8,9 @@ jQuery(document).ready(function($) {
 				$('.img-wrapper').css('display', 'block');
 				gambarElement = $('.gambar-fill');
 				hitungAspectRatio(gambarElement);
+				$(".foto-profil").each(function() {
+				    hitungAspectRatio($(this))
+				})
 	        }
 	        reader.readAsDataURL(input.files[0]);
 	    }
@@ -25,6 +28,9 @@ jQuery(document).ready(function($) {
 				$('.img-wrapper-B').css('display', 'block');
 				gambarElement = $('.gambar_b-fill');
 				hitungAspectRatio(gambarElement);
+				$(".foto-profil").each(function() {
+				    hitungAspectRatio($(this))
+				})
 	        }
 	        reader.readAsDataURL(input.files[0]);
 	    }

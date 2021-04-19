@@ -288,6 +288,7 @@
 <script type="text/javascript">
 		
 	jQuery(document).ready(function($) {
+		var host = '<?=site_url('/images/mitra/galeri/')?>';
 		var submitted = false;
 		$("form").submit(function(e) {
 			submitted = true;
@@ -383,7 +384,6 @@
 			multiContainer: true,
 			search: true,
 			cbLoopItem: (item, group, search) => {
-				console.log(item);
 				var newItem = document.createElement('li');
 				newItem.innerHTML = "<a href='#' class='delete-item btn btn-sm btn-danger rounded-circle' data-toggle='tooltip' title='Hapus kategori' data-value='" +item.description+ "'><i class='fas fa-times'></i></a> " + item.value;
 				return newItem;
@@ -453,7 +453,6 @@
 				dataType: 'html',
 			})
 			.done(function(data) {
-				console.log(data);
 				$("#tags-jenis_usaha").html(data);
 				kategoriUsaha.reload();
 				if (typeof open !== 'undefined') {
@@ -505,7 +504,7 @@
 				htmlGaleri += `	
 					<div style="max-width: 250px; position:relative">
 						<a style="position: absolute; top: 8px; right: 0;" href='#' data-gambar='${item}' class='galeri-hapus btn btn-danger btn-sm rounded-circle'><i class='fas fa-times'></i></a>
-						<img src="${item}" class="img-thumbnail">
+						<img src="${host}/${item}" class="img-thumbnail">
 					</div>
 				`
 			})

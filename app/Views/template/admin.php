@@ -263,6 +263,7 @@
     <!-- Argon JS -->
     <script src="<?=site_url('lib/argon-dashboard/js')?>/argon.js?v=1.2.0"></script>
     <script src="<?=site_url('js')?>/default.js"></script>
+    <script src="<?=site_url('js')?>/dynamic-img.js"></script>
     <?php 
         if (isset($ui_js)) {
             if (is_array($ui_js)) {

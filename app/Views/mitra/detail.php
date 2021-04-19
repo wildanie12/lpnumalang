@@ -12,8 +12,8 @@
 						foreach ($galeri as $gambar) {
 						
 				?>
-				<li data-thumb="<?=$gambar?>">
-					<img src="<?=$gambar?>">
+				<li data-thumb="<?=site_url('/images/mitra/galeri/') . $gambar?>">
+					<img src="<?=site_url('/images/mitra/galeri/') . $gambar?>">
 				</li>
 				<?php 
 						}
@@ -134,7 +134,7 @@
 					<div class="col d-flex flex-row align-items-center" style="font-size: 8pt; color: #099543; font-weight: 700;">
 						<div class="d-flex flex-row align-items-center mr-4" style="">
 							<?php 
-								$penulis_text = '';
+								$penulis_text = 'Tidak diketahui';
 								$gambar = 'admin-default.png';
 								$penulis = $adminModel->find($mitra['admin_username']);
 								if (is_array($penulis)) {
@@ -149,8 +149,10 @@
 									$penulis_text = 'Tidak diketahui';
 								}
 		                    ?>
-							<img src="<?=site_url('images/profile/' . $gambar)?>" class="rounded-circle mr-1" style='height: 20px;'>
-							<span><?=$mitra['admin_username']?></span>
+		                    <div class="mr-2 rounded-circle" style="width: 24px; height: 24px; overflow: hidden">
+								<img src="<?=site_url('images/profile/' . $gambar)?>" class="foto-profil" style='height: 20px;'>
+		                    </div>
+							<span><?=ucwords(strtolower($mitra['admin_username']))?></span>
 						</div>
 						<span class="mr-4"><i class="fas fa-calendar-alt pr-2"></i><?=date('d-m-Y H:i:s', strtotime($mitra['created_at']))?></span>
 						<span class="label label-warning font-weight-bold text-dark mr-1">Profil Mitra</span>

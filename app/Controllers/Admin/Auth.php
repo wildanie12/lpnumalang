@@ -65,7 +65,7 @@ class Auth extends Controller
     	unset($_COOKIE['logged_username']);
     	setcookie('logged_username', null, -1);
     	unset($_COOKIE['logged_secret']);
-    	setcookie('logged_username', null, -1);
+    	setcookie('logged_secret', null, -1);
         return redirect()->to(site_url('login'));
     }
 	public function index()

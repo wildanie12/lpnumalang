@@ -145,6 +145,9 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12 order-lg-2">
                             <div class="rounded-circle foto-profil-wrapper" style="overflow: hidden; position: absolute; width: 150px; height: 150px; top: -110px; left: 34%;">
+                                <div class="progress" style="display:none; position: absolute; top: 48%; left: 8px; right: 8px; z-index: 999; height: 8px;">
+                                    <div class="progress-bar progress-bar-animated progress-bar-striped bg-danger" style="width: 100%"></div>
+                                </div>
                                 <img src="<?=site_url('images/profile/' . $gambar)?>" class="foto-profil gambar-fill" data-toggle='tooltip' title="Klik untuk mengganti foto profil" data-placement="left" style="position: relative; cursor: pointer;">
                             </div>
                         </div>
@@ -192,7 +195,38 @@
         $("[name='avatar']").click();
     });
 
-    
+    $("input[name='avatar']").change(function(e) {
+        avatarFormData = new FormData();
+        avatarFormData.append('username', '<?=$userdata['username']?>');
+        avatarFormData.append('avatar', $(this)[0].files[0]);
+
+        $(".progress").show();
+        $(".progress .progress-bar").css('width', 0 + '%');
+        $.ajax({
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = parseInt(percentComplete * 100);
+                        $(".progress .progress-bar").css('width', percentComplete + '%');
+                        if (percentComplete === 100) {
+                            $(".progress").hide();
+                        }
+                    }
+                }, false);
+
+                return xhr;
+            },
+            url: '<?=site_url('admin/pengguna/upload_avatar')?>',
+            type: "POST",
+            data: avatarFormData,
+            contentType: false,
+            processData: false,
+            success: function(result) {
+            }
+        });
+    });
 
 
     

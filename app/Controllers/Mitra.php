@@ -42,7 +42,7 @@ class Mitra extends Controller
 	public function detail($id = false)
 	{
 		$mitraModel = new MitraModel();
-		$data['adminModel'] = new AdminModel();
+		$data['adminModel'] = new \App\Models\AdminModel();
 		$data['mitra'] = $mitraModel->find($id);
 		if ($data['mitra'] != '') {
 			// Pemberian Judul
