@@ -42,7 +42,7 @@ class Auth extends Controller
                 // password cocok
                 $secret = base64_encode('anjay' . time() . '-' . rand(1, 1000));  // To database
                 $token = password_hash($secret, PASSWORD_DEFAULT); // To Cookie
-                $adminModel->save(['username' => $username, 'token' => $secret]);
+                $adminModel->update($user_db['username'], ['token' => $secret]);
                 setcookie('logged_username', $user_db['username'], time()+60*60*24*30);
                 setcookie('logged_secret', $token, time()+60*60*24*30);
                 return redirect()->to($redirect_url);

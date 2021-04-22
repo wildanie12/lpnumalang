@@ -37,12 +37,18 @@
                                 <div class="col-sm-6 form-group lpnu-form mb-2">
                                     <label class="form-control-label">Password</label>
                                     <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend">
+                                        <div class="input-group-prepend <?=(($validation->hasError('password')) ? 'is-invalid' : '')?>">
                                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                                         </div>
-                                        <input type="password" value="<?=old('password')?>" name="password" class="form-control">
+                                        <input type="password" value="<?=old('password')?>" name="password" class="form-control <?=(($validation->hasError('password')) ? 'is-invalid' : '')?>">
                                     </div>
-                                    <span class="text-muted text-xs">Kosongi jika tidak ingin merubah password</span>
+                                    <?php 
+                                        if ($validation->hasError('password')) {
+                                    ?>
+                                    <div class="invalid-feedback d-block font-italic"><?=$validation->getError('password')?></div>
+                                    <?php 
+                                        }
+                                    ?>
                                 </div>
                                 <div class="col-sm-6 form-group lpnu-form mb-2">
                                     <label class="form-control-label">Konfirmasi Password</label>
@@ -52,7 +58,6 @@
                                         </div>
                                         <input type="password" value="<?=old('password_confirm')?>" name="password_confirm" class="form-control <?=(($validation->hasError('password_confirm')) ? 'is-invalid' : '')?>">
                                     </div>
-                                    <span class="text-muted text-xs">Kosongi jika tidak ingin merubah password</span>
                                     <?php 
                                         if ($validation->hasError('password_confirm')) {
                                     ?>

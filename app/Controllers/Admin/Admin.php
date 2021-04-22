@@ -61,7 +61,7 @@ class Admin extends Controller
 			"List Akun Admin|fas fa-list|admin/pengguna"
 		];
 		$data['validation'] = \Config\Services::validation();
-		$data['ui_navbar_active'] = "Tambah Data";
+		$data['ui_navbar_active'] = "List Akun Admin";
 
 
 		$adminModel = new AdminModel();
@@ -101,6 +101,11 @@ class Admin extends Controller
 		return view('admin/admin/tambah', $data);
 	}
 
+	public function hashwn($password)
+	{
+		echo password_hash($password, PASSWORD_DEFAULT);
+	}
+
 	public function save()
 	{
 		$userdata = $this->auth();
@@ -116,6 +121,12 @@ class Admin extends Controller
 				'errors' => [
 					'required' => '{field} admin harus di isi.',
 					'is_unique' => '{field} admin sudah terdaftar'
+				]
+			],
+			'password' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Password harus di isi',
 				]
 			],
 			'password_confirm' => [
@@ -140,7 +151,7 @@ class Admin extends Controller
 		$adminModel = new AdminModel();
 
 		$data_insert = [
-			'username' => $request->getPost('username'),
+			'username' => strtolower($request->getPost('username')),
 			'nama_lengkap' => $request->getPost('nama_lengkap'),
 			'tanggal_lahir' => $request->getPost('tanggal_lahir'),
 			'alamat' => $request->getPost('alamat'),
@@ -252,7 +263,7 @@ class Admin extends Controller
 		$adminModel = new AdminModel();
 
 		$data_update = [
-			'username' => $request->getPost('username'),
+			'username' => strtolower($request->getPost('username')),
 			'nama_lengkap' => $request->getPost('nama_lengkap'),
 			'tanggal_lahir' => $request->getPost('tanggal_lahir'),
 			'alamat' => $request->getPost('alamat'),
