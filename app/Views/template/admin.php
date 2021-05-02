@@ -19,10 +19,12 @@
     <title><?=((isset($ui_title)) ? $ui_title : '[Tidak ada Judul]')?></title>
     <!-- Favicon -->
     <link rel="icon" href="<?=site_url('LPNU LOGO XS.png')?>" type="image/png">
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?=site_url('lib/fontawesome-free-5.14.0-web/css/all.min.css')?>" type="text/css">
     <link rel="stylesheet" href="<?=site_url('lib/argon-dashboard/css')?>/argon.css?v=1.2.0" type="text/css">
-    <link rel="stylesheet" type="text/css" href="<?=site_url('css/custom.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?=site_url('css/custom.css?v=2')?>">
     <?php 
         if (isset($ui_css)) {
             if (is_array($ui_css)) {
@@ -69,7 +71,7 @@
                     <!-- Nav items -->
                     <ul class="navbar-nav">
                         <?php  
-                            $inactive = [0, 1, 4, 5];
+                            $inactive = [];
                             if (empty($ui_sidebar)) {
                                 // Jika Sidebar belum di tulis di kontroller 
                                 $ui_sidebar = array(
@@ -207,7 +209,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="media align-items-center">
-                                    <div class="avatar avatar-sm rounded-circle" style="overflow: hidden; width: 35px; height: 35px;">
+                                    <div class="rounded-circle" style="overflow: hidden; width: 35px; height: 35px;">
                                         <?php 
                                             $gambar = 'admin-default.png';
                                             if ($userdata['avatar'] != '') {
@@ -252,7 +254,7 @@
 
     <!-- Argon Scripts -->
     <!-- Core -->
-    <script src="<?=site_url('lib/argon-dashboard/vendor')?>/jquery/dist/jquery.min.js"></script>
+    <script src="<?=site_url('lib/argon-dashboard/vendor/jquery/dist/')?>jquery.min.js"></script>
     <script src="<?=site_url('lib/argon-dashboard/vendor')?>/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?=site_url('lib/argon-dashboard/vendor')?>/js-cookie/js.cookie.js"></script>
     <script src="<?=site_url('lib/argon-dashboard/vendor')?>/jquery.scrollbar/jquery.scrollbar.min.js"></script>
@@ -263,7 +265,7 @@
     <!-- Argon JS -->
     <script src="<?=site_url('lib/argon-dashboard/js')?>/argon.js?v=1.2.0"></script>
     <script src="<?=site_url('js')?>/default.js"></script>
-    <script src="<?=site_url('js')?>/dynamic-img.js"></script>
+    <script src="<?=site_url('js')?>/dynamic-img.js?v=2"></script>
     <?php 
         if (isset($ui_js)) {
             if (is_array($ui_js)) {

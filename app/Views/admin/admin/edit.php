@@ -144,7 +144,7 @@
                     ?>
                     <div class="row justify-content-center">
                         <div class="col-lg-12 order-lg-2">
-                            <div class="rounded-circle foto-profil-wrapper" style="overflow: hidden; position: absolute; width: 150px; height: 150px; top: -110px; left: 34%;">
+                            <div class="rounded-circle foto-profil-wrapper" style="overflow: hidden; position: absolute; width: 150px; height: 150px; top: -110px; left: 0; right: 0; margin-left: auto; margin-right: auto;">
                                 <div class="progress" style="display:none; position: absolute; top: 48%; left: 8px; right: 8px; z-index: 999; height: 8px;">
                                     <div class="progress-bar progress-bar-animated progress-bar-striped bg-danger" style="width: 100%"></div>
                                 </div>
@@ -152,8 +152,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                        <div class="card-body pt-5">
+                    <div class="card-header text-center border-0 pt-5 pt-md-4 pb-0 pb-md-4">
+                        <div class="card-body pt-md-5">
                             <div class="row">
                                 <div class="col">
                                         <div class="text-center">
@@ -176,7 +176,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-home"></i></span>
                                         </div>
-                                        <input type="file" name="avatar" class="form-control element-gambar">
+                                        <input type="file" name="avatar" class="form-control element-gambar element-foto-profil">
                                     </div>
                                     <span class="text-muted text-xs">Kosongi jika tidak ingin merubah foto</span>
                                 </div>

@@ -34,7 +34,7 @@ class Mitra extends Controller
 				"Sub #3|fab fa-instagram|https://www.instagram.com/"
 			],
 		];
-		$kategoriModel = new \App\Models\KategoriModel();
+		$kategoriModel = new \App\Models\KategoriUsahaModel();
 		$data['data_kategori'] = $kategoriModel->findAll();
 		return view('mitra/list', $data);
 	}

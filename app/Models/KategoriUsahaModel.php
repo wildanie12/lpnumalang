@@ -2,13 +2,13 @@
 
 use CodeIgniter\Model;
 
-class KategoriModel extends Model
+class KategoriUsahaModel extends Model
 {
-    protected $table = 'kategori';
+    protected $table = 'kategori_usaha';
 
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['kategori', 'slug'];
+    protected $allowedFields = ['kategori'];
 
     protected $useTimestamps = true;
 }

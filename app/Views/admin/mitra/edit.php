@@ -158,7 +158,7 @@
 				<div class="card">
 					<div class="card-header p-3" style="line-height: 8px">
 						<h4 class="card-title mb-0 pb-0">Galeri foto Mitra</h4>
-						<span class="text-muted text-uppercase" style="font-size: 8pt">Anda dapat memambahkan lebih dari 1 FSoto</span>
+						<span class="text-muted text-uppercase" style="font-size: 8pt">Anda dapat memambahkan lebih dari 1 Foto</span>
 					</div>
 					<div class="card-body">
 						<div class="row">

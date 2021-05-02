@@ -7,6 +7,8 @@ class MitraModel extends Model
 {
     protected $table      = 'mitra';
     protected $primaryKey = 'id';
+    protected $useSoftDeletes = false;
+   
 
     protected $returnType = 'array';
 

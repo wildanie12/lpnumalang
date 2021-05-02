@@ -64,7 +64,7 @@ class Mitra extends Controller
 		$wilayahModel = new \App\Models\WilayahModel();
 		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();		
 
-		$kategoriModel = new \App\Models\KategoriModel();
+		$kategoriModel = new \App\Models\KategoriUsahaModel();
 		$data['data_kategori'] = $kategoriModel->findAll();
 		return view('admin/mitra/list', $data);
 	}
@@ -159,7 +159,7 @@ class Mitra extends Controller
 		];
 		$data['ui_navbar_active'] = "Tambah Mitra";
 		$wilayahModel = new \App\Models\WilayahModel();
-		$kategoriModel = new \App\Models\KategoriModel();
+		$kategoriModel = new \App\Models\KategoriUsahaModel();
 		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();
 		$data['data_kategori'] = $kategoriModel->findAll();
 
@@ -175,7 +175,7 @@ class Mitra extends Controller
 				return redirect()->to(site_url('logout'));
 			}
 
-			$kategoriModel = new \App\Models\KategoriModel();
+			$kategoriModel = new \App\Models\KategoriUsahaModel();
 			$kategoriModel = $kategoriModel->orderBy('id', 'desc')->findAll();
 			foreach ($kategoriModel as $kategori) {
 				echo "<option data-description='" .$kategori['id']. "' value='" .$kategori['kategori']. "'> " . ucfirst(strtolower($kategori['kategori'])) . "</option>";
@@ -192,7 +192,7 @@ class Mitra extends Controller
 			}
 
 			$request = $this->request;
-			$kategoriModel = new \App\Models\KategoriModel();
+			$kategoriModel = new \App\Models\KategoriUsahaModel();
 			if ($mode == 'insert') {
 				$kategoriModel->save(['kategori' => $request->getPost('kategori')]);
 			}
@@ -406,7 +406,7 @@ class Mitra extends Controller
 			];
 			$data['ui_navbar_active'] = "";
 			$wilayahModel = new \App\Models\WilayahModel();
-			$kategoriModel = new \App\Models\KategoriModel();
+			$kategoriModel = new \App\Models\KategoriUsahaModel();
 			$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();
 			$data['data_kategori'] = $kategoriModel->findAll();
 
@@ -475,15 +475,13 @@ class Mitra extends Controller
 		if ($mitra['galeri'] != '') {
 			$galeri = explode('|', $mitra['galeri']);
 			foreach ($galeri as $gambar) {
-				$base_length = strlen(base_url());
-				$file_url = substr($gambar, $base_length);
-				if (file_exists('.' . $file_url)) {
-					unlink('.' . $file_url);
+				if (file_exists($uploadConfig->directoryMitraGaleri . '/' . $gambar)) {
+					unlink($uploadConfig->directoryMitraGaleri . '/' . $gambar);
 				}				
 			}
 
-			if (file_exists('./files/mitra/' . $mitra['file_artikel'])) {
-				unlink('./files/mitra/' . $mitra['file_artikel']);
+			if (file_exists($uploadConfig->directoryMitraArtikelFile . '/' . $mitra['file_artikel'])) {
+				unlink($uploadConfig->directoryMitraArtikelFile . '/' . $mitra['file_artikel']);
 			}
 		}
 		$mitraModel->delete($id);

@@ -32,7 +32,7 @@
 					<hr class="mb-2 mt-0">
 
 					<span class="text-muted text-uppercase" style="font-weight: bolder; font-size: 8pt">Nama Pemilik</span>
-					<h4 style="font-weight: bolder"><?=$mitra['nama_pemilik']?></h4>
+					<h4 style="font-weight: bolder"><?=ucwords(strtolower($mitra['nama_pemilik']))?></h4>
 
 					<span class="text-muted text-uppercase" style="font-weight: bolder; font-size: 8pt; display: block">Kategori Usaha</span>
 					<?php 

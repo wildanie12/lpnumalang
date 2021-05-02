@@ -121,7 +121,12 @@
 	position: relative;
 	top: 2px;
 }
-
+.bg-lpnu {
+	background-color: #099543;
+}
+.text-lpnu {
+	color: #099543 !important;
+}
 .lpnu-form label {
 	color: black !important;
 	font-weight: bold;
@@ -145,8 +150,15 @@
     overflow: visible !important;
 }
 
+div.ck-editor__editable strong {
+	font-weight: bold !important;
+}
 div.ck-editor__editable {
-	min-height: 250px
+	min-height: 250px;
+    color: black;
+    font-family: 'Amiri', sans-serif;
+    line-height: 28px;
+    font-size: 19px;
 }
 .dz-image, .dz-progress, .dz-error-message, .dz-success-mark, .dz-error-mark, .dz-remove, .dz-preview, .dz-processing, .dz-image-preview, .dz-success, .dz-complete {
 	display: none !important;
@@ -253,6 +265,32 @@ table.table-border-0 tr > * {
   background: #B0B8E4; /* WebKit/Blink Browsers */
 }
 
+.progress-bar-animated-fast {
+	animation: progress-bar-stripes 0.5s linear infinite;
+}
+.progress-bar-striped-light {
+    background-image: linear-gradient(45deg, rgb(0 0 0 / 69%) 25%, transparent 25%, transparent 50%, rgb(0 0 0 / 69%) 50%, rgb(0 0 0 / 69%) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+}
+.d-none-important {
+	display: none !important;
+}
+.btn-content {
+	cursor: pointer;
+	transition: all ease 200ms;
+}
+.btn-content:hover {
+	background-color: #e9fff2;
+	box-shadow: 0px 6px 12px 0px #0000001f;
+	/*transform: translateY(-2px);*/
+}
+.btn-content:hover .dropdown-menu {
+	z-index: 2000
+}
+.dropdown-no-caret::after {
+	display: none !important
+}
+
 
 /* -------------------------------------------------------------
  * Extra Large (XL)
@@ -269,6 +307,10 @@ table.table-border-0 tr > * {
 	}
 	.container-wildanie {
 		width: 1200px
+	}
+	.artikel-thumbnail {
+		width: 80px;
+		height: 80px
 	}
 }
 
@@ -289,6 +331,10 @@ table.table-border-0 tr > * {
 	.container-wildanie {
 		width: 992px
 	}
+	.artikel-thumbnail {
+		width: 80px;
+		height: 80px
+	}
 }
 
 /* -------------------------------------------------------------
@@ -303,6 +349,10 @@ table.table-border-0 tr > * {
 	}
 	.lSPager li {
 		height: 30px;
+	}
+	.artikel-thumbnail {
+		width: 80px;
+		height: 80px
 	}
 }
 
@@ -319,6 +369,10 @@ table.table-border-0 tr > * {
 	.lSPager li {
 		height: 30px;
 	}
+	.artikel-thumbnail {
+		width: 80px;
+		height: 80px
+	}
 }
 
 /* -------------------------------------------------------------
@@ -333,5 +387,9 @@ table.table-border-0 tr > * {
 	}
 	.lSPager li {
 		height: 40px;
+	}
+	.artikel-thumbnail {
+		width: 60px;
+		height: 60px
 	}
 }

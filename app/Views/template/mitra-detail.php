@@ -39,7 +39,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link href="<?=site_url('lib/paper-kit-2')?>/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<?=site_url('lib/paper-kit-2')?>/css/paper-kit.css?v=2.2.0" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="<?=site_url('css/custom.css')?>" rel="stylesheet" />
+    <link href="<?=site_url('css/custom.css?v=2')?>" rel="stylesheet" />
     <?php 
         if (isset($ui_css)) {
             if (is_array($ui_css)) {
@@ -248,7 +248,7 @@ The above copyright notice and this permission notice shall be included in all c
     <!-- Control Center for Paper Kit: parallax effects, scripts for the example pages etc -->
     <script src="<?=site_url('lib/paper-kit-2')?>/js/paper-kit.js?v=2.2.0" type="text/javascript"></script>
     <script src="<?=site_url('js/default.js')?>" type="text/javascript"></script>
-    <script src="<?=site_url('js/dynamic-img.js')?>" type="text/javascript"></script>
+    <script src="<?=site_url('js/dynamic-img.js?v=2')?>" type="text/javascript"></script>
     <?php 
         if (isset($ui_js)) {
             if (is_array($ui_js)) {

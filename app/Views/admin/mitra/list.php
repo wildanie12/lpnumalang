@@ -74,11 +74,11 @@
 										<div class="form-group mb-1">
 											<label class="form-control-label mb-1 d-block">Cari berdasarkan</label>
 											<div class="custom-control custom-control-inline custom-radio">
-												<input type="radio" name="cari_berdasarkan" value="nama_pemilik" class="custom-control-input filter-pencarian_berdasarkan" id="search_by_name" checked>
+												<input type="radio" name="cari_berdasarkan" value="nama_pemilik" class="custom-control-input filter-pencarian_berdasarkan" id="search_by_name">
 												<label class="custom-control-label font-weight-bold text-uppercase" style="color: green; font-size: 11pt" for="search_by_name">Nama <div class="d-none d-lg-inline-block">Pemilik</div></label>
 											</div>
 											<div class="custom-control custom-control-inline custom-radio">
-												<input type="radio" name="cari_berdasarkan" value="merek_dagang" class="custom-control-input filter-pencarian_berdasarkan" id="search_by_merek">
+												<input type="radio" name="cari_berdasarkan" value="merek_dagang" class="custom-control-input filter-pencarian_berdasarkan" id="search_by_merek" checked>
 												<label class="custom-control-label font-weight-bold text-uppercase" style="color: green; font-size: 11pt" for="search_by_merek">Merek <div class="d-none d-lg-inline-block">dagang</div></label>
 											</div>
 										</div>
@@ -192,7 +192,8 @@
 
 	let mitraParams = {
 		page: 1,
-		limit: 50
+		limit: 50,
+		pencarian_berdasarkan: 'merek_dagang'
 	}
 	function refreshMitra() {
 		$(".progress").css('visibility', 'visible');

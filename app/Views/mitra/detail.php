@@ -152,7 +152,7 @@
 		                    <div class="mr-2 rounded-circle" style="width: 24px; height: 24px; overflow: hidden">
 								<img src="<?=site_url('images/profile/' . $gambar)?>" class="foto-profil" style='height: 20px;'>
 		                    </div>
-							<span><?=ucwords(strtolower($mitra['admin_username']))?></span>
+							<span><?=ucwords(strtolower($penulis_text))?></span>
 						</div>
 						<span class="mr-4"><i class="fas fa-calendar-alt pr-2"></i><?=date('d-m-Y H:i:s', strtotime($mitra['created_at']))?></span>
 						<span class="label label-warning font-weight-bold text-dark mr-1">Profil Mitra</span>
@@ -210,7 +210,7 @@
 	$("#mitra-gallery").lightSlider({
 		gallery: true,
 		item: 1,
-        adaptiveHeight:true,
+        // adaptiveHeight:true,
 		thumbItem: 8,
 		loop: true,
 		// auto: true,

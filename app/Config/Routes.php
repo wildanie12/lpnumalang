@@ -34,7 +34,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 // * Admin/Mitra/List 
 
-// $routes->add('/', 'Home::index');
+// $routes->add('/', 'Home::index'); Change this if it is complete
 
 
 $routes->add('/admin', 'Admin\Mitra::list'); // Temporary
@@ -48,7 +48,16 @@ $routes->add('/admin/pengguna/', 'Admin\Admin::list'); // Admin Re-route method
 $routes->post('/admin/pengguna/', 'Admin\Admin::remove'); // Admin Re-route method
 $routes->add('/admin/pengguna/(:any)', 'Admin\Admin::$1'); // Admin Re-route method
 
-// $routes->add('/mitra', 'Mitra::index'); // Front-end Mitra (Cari Mitra);
+
+$routes->add('/admin/postingan/', 'Admin\Artikel::list'); // Postingan Artikel Re-route method
+
+$routes->add('/admin/postingan/artikel/', 'Admin\Artikel::list'); // Postingan Artikel Re-route method
+$routes->add('/admin/postingan/artikel/(:any)', 'Admin\Artikel::$1'); // Postingan Artikel Re-route method
+
+$routes->add('/admin/postingan/halaman/', 'Admin\Halaman::list'); // Postingan Halaman Re-route method
+$routes->add('/admin/postingan/halaman/(:any)', 'Admin\Halaman::$1'); // Postingan Halaman Re-route method
+
+// $routes->add('/mitra', 'Mitra::index'); // Front-end Mitra (Cari Mitra); Change this if it is complete
 $routes->add('/mitra/list', 'Mitra::list'); // Front-end Mitra (List pencarian Mitra);
 $routes->add('/mitra/ajax_list/(:segment)', 'Mitra::ajax_list/$1'); // Front-end Mitra (List pencarian Mitra);
 $routes->add('/mitra/dynamic_form_kelurahan', 'Mitra::dynamic_form_kelurahan'); // Front-end Mitra (List pencarian Mitra);
