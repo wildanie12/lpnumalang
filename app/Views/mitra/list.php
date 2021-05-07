@@ -1,4 +1,4 @@
-<?php $this->extend('template/mitra-detail'); ?>
+<?php $this->extend('template/guest'); ?>
 
 <?php $this->section('content'); ?>
 <!------------------------------------------------->

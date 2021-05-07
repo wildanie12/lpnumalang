@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?=site_url('lib/fontawesome-free-5.14.0-web/css/all.min.css')?>" type="text/css">
     <link rel="stylesheet" href="<?=site_url('lib/argon-dashboard/css')?>/argon.css?v=1.2.0" type="text/css">
-    <link rel="stylesheet" type="text/css" href="<?=site_url('css/custom.css?v=2')?>">
+    <link rel="stylesheet" type="text/css" href="<?=site_url('css/custom.css?v=4')?>">
     <?php 
         if (isset($ui_css)) {
             if (is_array($ui_css)) {
@@ -53,14 +53,14 @@
             <div class="sidenav-header align-items-center mb-2">
                 <a class="navbar-brand p-0" href="javascript:void(0)">
                     <div class="d-flex justify-content-center">
-                        <img src="<?=site_url('LPNU LOGO XS.png')?>" class="navbar-brand-img" alt="..." style="max-height: 70px;">
-                        <div class="ml-2 text-left">
+                        <img src="<?=site_url('Lpnulogo.png')?>" class="navbar-brand-img" alt="..." style="max-height: 70px;">
+                        <div class="ml-2 text-left d-flex flex-column justify-content-center">
                             <h4 class="text-uppercase mb-0" style="font-size: 11pt; line-height: 15px; font-weight: bolder;">
                                 Lembaga <br/>
                                 Perekonomian <br/>
                                 Nahdlatul Ulama
                             </h4> 
-                            <span style="font-size: 10pt">Kab. Malang</span>
+                            <div style="font-size: 10pt">Kab. Malang</div>
                         </div>
                     </div>
                 </a>

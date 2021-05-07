@@ -46,7 +46,19 @@
 						<span class="text-danger text-uppercase d-block d-sm-inline-block" style="font-size: 9pt; font-weight: bolder;">
 							<?=date('d F Y', strtotime($artikel['created_at']))?>
 						</span>
-								
+						<?php 
+							if ($artikel['kategori_id'] != '') {
+								$kategori_id = explode('|', $artikel['kategori_id']);
+								foreach ($kategori_id as $id) {
+									$kategori = $kategoriModel->find($id);
+						?>
+						<span class="badge bg-default text-white p-1" style="font-size: 7pt !important; font-weight: bolder !important;">
+							<i class='fas fa-tag mr-1'></i><?=(($kategori != '') ? $kategori['kategori'] : '')?>
+						</span>
+						<?php 
+								}
+							}
+						?>
 					</div>
 				</div>
 			</div> <!-- end col -->

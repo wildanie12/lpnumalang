@@ -57,20 +57,23 @@ $routes->add('/admin/postingan/artikel/(:any)', 'Admin\Artikel::$1'); // Posting
 $routes->add('/admin/postingan/halaman/', 'Admin\Halaman::list'); // Postingan Halaman Re-route method
 $routes->add('/admin/postingan/halaman/(:any)', 'Admin\Halaman::$1'); // Postingan Halaman Re-route method
 
+
+$routes->get('/login', 'Admin\Auth::index');
+$routes->post('/login', 'Admin\Auth::do_login');
+$routes->get('/logout', 'Admin\Auth::logout');
+
+$routes->add('/mitra', 'Mitra::list'); // Front-end Mitra (Cari Mitra);
+
 // $routes->add('/mitra', 'Mitra::index'); // Front-end Mitra (Cari Mitra); Change this if it is complete
 $routes->add('/mitra/list', 'Mitra::list'); // Front-end Mitra (List pencarian Mitra);
 $routes->add('/mitra/ajax_list/(:segment)', 'Mitra::ajax_list/$1'); // Front-end Mitra (List pencarian Mitra);
 $routes->add('/mitra/dynamic_form_kelurahan', 'Mitra::dynamic_form_kelurahan'); // Front-end Mitra (List pencarian Mitra);
 $routes->add('/mitra/(:any)', 'Mitra::detail/$1'); // Front-end Mitra (Detail Mitra);
 
-$routes->get('/login', 'Admin\Auth::index');
-$routes->post('/login', 'Admin\Auth::do_login');
-$routes->get('/logout', 'Admin\Auth::logout');
-
-// Demo Purpose 
-$routes->add('/', 'Mitra::list');
-$routes->add('/mitra', 'Mitra::list'); // Front-end Mitra (Cari Mitra);
-
+$routes->add('/', 'Blog::homepage');
+$routes->add('/populer', 'Blog::populer');
+$routes->add('/kategori/(:any)', 'Blog::kategori/$1');
+$routes->add('/(:any)', 'Blog::artikel/$1');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -52,69 +52,87 @@ $(".foto-profil").one("load", function() {
 }).each(function() {
     hitungAspectRatio($(this))
 })
-function hitungAspectRatio($this, callbackLandscape, callbackPotrait, callbackSquare) {
-        // Calculate aspect ratio and store it in HTML data- attribute
-        width = Math.floor(parseInt($this[0].scrollWidth))
-		if (width <= 0) {
-	        width = parseInt($this.scrollWidth)
-		}
-        height = Math.floor(parseInt($this[0].scrollHeight))
-		if (width <= 0) {
-	        height = parseInt($this.scrollHeight)
-		}
-        var aspectRatio = width/height
-        $this.attr("aspect-ratio", aspectRatio)
+function hitungAspectRatio($this, parent, hiddenParent) {
+    if (typeof hiddenParent !== 'undefined')
+		hiddenParent.css('display', 'block');
 
-        // Conditional statement
-        if(aspectRatio > 1) {
-            // Image is landscape
-            $this.css({
-                width: "auto",
-                height: "100%",
-                top: 0,
-                position: 'relative'
-            })
-
-	        width = Math.floor(parseInt($this[0].scrollWidth))
-            widthParent = $this.parent().width()
-            offsetArea = width - widthParent
-            offset = -(offsetArea / 2)
-
-            $this.css('left', offset);
-
-            $this.attr('offsetarea', offsetArea)
-            $this.attr('parentwidth', widthParent)
-            $this.attr('imagewidth', width)
-        } 
-        else if (aspectRatio < 1) {
-            // Image is portrait
-            $this.css({
-                width: "100%",
-                height: "auto",
-                left: 0,
-                position: 'relative'        
-            })
-
-	        height = Math.floor(parseInt($this[0].scrollHeight))
-            heightParent = $this.parent().height()
-            offsetArea = height - heightParent
-            offset = -(offsetArea / 2)
-
-            $this.css('top', offset);
-
-            $this.attr('offsetarea', offsetArea)
-            $this.attr('parentheight', heightParent)
-            $this.attr('imageheight', height)
-        } 
-        else {
-            // Image is square
-            $this.css({
-                width: "100%",
-                height: "auto",
-                left: 0,
-                top: 0            
-            })            
-        }
-
-
+	// Calculate Parent
+    if (typeof parent !== 'undefined') {
+    	widthParent = parent.width
+        heightParent = parent.height
+    } 
+    else {
+        widthParent = $this.parent().width() 
+        heightParent = $this.parent().height() 
     }
+
+
+
+
+
+    // Calculate aspect ratio and store it in HTML data- attribute
+    width = Math.floor(parseInt($this[0].scrollWidth))
+	if (width <= 0) {
+        width = parseInt($this.scrollWidth)
+	}
+    height = Math.floor(parseInt($this[0].scrollHeight))
+	if (height <= 0) {
+        height = parseInt($this.scrollHeight)
+	}
+    var aspectRatio = width/height
+    $this.attr("aspect-ratio", aspectRatio)
+
+    // Conditional statement
+    if(aspectRatio > 1) {
+        // Image is landscape
+        $this.css({
+            width: "auto",
+            height: heightParent,
+            top: 0,
+            position: 'relative'
+        })
+
+        width = Math.floor(parseInt($this[0].scrollWidth))
+        
+        offsetArea = width - widthParent
+        offset = -(offsetArea / 2)
+
+        $this.css('left', offset);
+
+        $this.attr('offsetarea', offsetArea)
+        $this.attr('parentwidth', widthParent)
+        $this.attr('imagewidth', width)
+    } 
+    else if (aspectRatio < 1) {
+        // Image is portrait
+        $this.css({
+            width: widthParent,
+            height: "auto",
+            left: 0,
+            position: 'relative'        
+        })
+
+        height = Math.floor(parseInt($this[0].scrollHeight))
+        
+        offsetArea = height - heightParent
+        offset = -(offsetArea / 2)
+
+        $this.css('top', offset);
+
+        $this.attr('offsetarea', offsetArea)
+        $this.attr('parentheight', heightParent)
+        $this.attr('imageheight', height)
+    } 
+    else {
+        // Image is square
+        $this.css({
+            width: "100%",
+            height: "auto",
+            left: 0,
+            top: 0            
+        })            
+    }
+
+    if (typeof hiddenParent !== 'undefined')
+		hiddenParent.css('display', 'none');
+}

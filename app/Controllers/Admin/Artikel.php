@@ -85,6 +85,7 @@ class Artikel extends Controller
 			if ($ui != 'single') {
 
 				$data['adminModel'] = new \App\Models\AdminModel();
+				$data['kategoriModel'] = new \App\Models\KategoriModel();
 
 				$artikelFiltered = new \App\Models\ArtikelModel();
 				$data['limit'] = $request->getGet('limit');
@@ -184,7 +185,6 @@ class Artikel extends Controller
 				}
 				if ($artikel['file_artikel'] != '') {
 					if (file_exists('./files/postingan/artikel/' . $artikel['file_artikel'])) {
-
 						unlink('./files/postingan/artikel/' . $artikel['file_artikel']);
 					}
 				}
@@ -320,10 +320,10 @@ class Artikel extends Controller
 				
 				$rules = [
 					'kategori' => [
-						'rules' => 'required|is_unique[kategori.kategori]',
+						'rules' => 'required|is_unique_without_deleted[kategori.kategori]',
 						'errors' => [
 							'required' => 'Kategori belum di isi saat tambah kategori',
-							'is_unique' => 'Kategori sudah ada'
+							'is_unique_without_deleted' => 'Kategori sudah ada'
 						]
 					]
 				];
@@ -337,7 +337,16 @@ class Artikel extends Controller
 			}
 			else if ($mode == 'delete') {
 				$id = $request->getPost('id');
-				$kategoriModel->delete($id);
+				// $kategoriModel->delete($id);
+				$artikelModel = new \App\Models\ArtikelModel();
+				$data_artikel = $artikelModel->like('kategori_id', $id, 'both')->findAll();
+				$data_artikel = count($data_artikel);
+				if ($data_artikel <= 0) {
+					$kategoriModel->delete($id, true);
+				}
+				else {
+					$kategoriModel->delete($id);
+				}
 			}
 			echo json_encode(['status' => 'success']);
 			die;

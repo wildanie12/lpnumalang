@@ -39,7 +39,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link href="<?=site_url('lib/paper-kit-2')?>/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<?=site_url('lib/paper-kit-2')?>/css/paper-kit.css?v=2.2.0" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="<?=site_url('css/custom.css?v=2')?>" rel="stylesheet" />
+    <link href="<?=site_url('css/custom.css?v=4')?>" rel="stylesheet" />
     <?php 
         if (isset($ui_css)) {
             if (is_array($ui_css)) {
@@ -56,11 +56,14 @@ The above copyright notice and this permission notice shall be included in all c
 <body class="index-page sidebar-collapse front-end">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-light " color-on-scroll="300">
-        <div class="container-fluid">
-            <div class="navbar-translate pl-md-4 pl-2 ">
+        <div class="<?=((isset($ui_container)) ? $ui_container : 'container-fluid')?>">
+            <div class="navbar-translate pl-3 pl-lg-0">
                 <a class="navbar-brand p-0" href="<?=base_url()?>" rel="tooltip" title="Beranda LPNU Malang" data-placement="bottom">
-                    <img src="<?=site_url('Lpnu Logo Landscape Malang XS.png')?>" class="front-end-logo">
+                    <img src="<?=site_url('Lpnulogo.png')?>" class="front-end-logo">
                 </a>
+                <div class="pl-1 d-block d-lg-none font-weight-bold">
+                    Lembaga perekonomian NU
+                </div>
                 <button class="navbar-toggler navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-bar bar1"></span>
                     <span class="navbar-toggler-bar bar2"></span>
@@ -103,9 +106,17 @@ The above copyright notice and this permission notice shall be included in all c
                                 $navbar_text = $navbar[0];
                                 $navbar_icon = $navbar[1];
                                 $navbar_link = $navbar[2];
+
+                                if ($navbar_text == '-') {
+                                    $padding = 'pr-0 text-center text-lg-left';
+                                    $navbar_text = '';
+                                }
+                                else {
+                                    $padding = '';
+                                }
                     ?>
                     <li class="nav-item">
-                        <a href="<?=$navbar_link?>" class="nav-link"><i class="<?=$navbar_icon?>"></i> <?=$navbar_text?></a>
+                        <a href="<?=$navbar_link?>" class="nav-link <?=$padding?>"><i class="<?=$navbar_icon?>"></i> <?=$navbar_text?></a>
                     </li>
                     <?php 
                             }
@@ -146,19 +157,21 @@ The above copyright notice and this permission notice shall be included in all c
         <?php $this->renderSection('content')?>
     </div>
     <footer class="bg-dark mt-4">
-        <div class="container-fluid container-wildanie py-4">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-sm-6 d-flex flex-row align-items-center">
-                    <img src="<?=site_url('LPNU LOGO XS.png')?>" style="height: 120px">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                    <img src="<?=site_url('lpnulogo.jpg')?>" style="height: 120px">
                     <div class="text-white ml-3">
                         <h5 class="mb-0" style="line-height: 20px; font-weight: 400">Lembaga <br/>Perekonomian <br/>Nahdlatul Ulama'</h5>
                         <span class="font-weight-bold">Malang</span><br/>
                         <div class="pt-1">&copy; 2021 LPNU Malang</div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <nav class="navbar navbar-default navbar-expand-sm bg-transparent navbar-light justify-content-end" style="box-shadow: 0 0 0 !important">
-                        <ul class="navbar-nav">
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <nav class="navbar navbar-default navbar-expand-sm bg-transparent navbar-light pl-2 pl-sm-0 justify-content-sm-center justify-content-left" style="box-shadow: 0 0 0 !important">
+                        <ul class="navbar-nav align-items-sm-center">
                             <?php 
                                 if (empty($ui_navbar)) {
                                     $ui_navbar = [
@@ -193,9 +206,12 @@ The above copyright notice and this permission notice shall be included in all c
                                         $navbar_text = $navbar[0];
                                         $navbar_icon = $navbar[1];
                                         $navbar_link = $navbar[2];
+                                        if ($navbar_text == "-") {
+                                            $navbar_text = "";
+                                        }
                             ?>
                             <li class="nav-item">
-                                <a href="<?=$navbar_link?>" class="nav-link"><i class="<?=$navbar_icon?>"></i> <?=$navbar_text?></a>
+                                <a href="<?=$navbar_link?>" class="nav-link my-0 text-left <?=(($navbar_text == "") ? 'pr-0' : '')?>"><i class="<?=$navbar_icon?>"></i> <?=$navbar_text?></a>
                             </li>
                             <?php 
                                     }
@@ -203,7 +219,7 @@ The above copyright notice and this permission notice shall be included in all c
                                         $navbar_toggle_text = $navbar;
                             ?>
                             <li class="nav-item dropup">
-                                <a href="#" class="nav-link" data-toggle='dropdown'><i class="nc-icon nc-book-bookmark"></i> <?=$navbar_toggle_text?></a>
+                                <a href="#" class="nav-link my-0 text-center" data-toggle='dropdown'><i class="nc-icon nc-book-bookmark"></i> <?=$navbar_toggle_text?></a>
                                 <ul class="dropdown-menu">
                                     <?php
                                         foreach ($child as $navbar) {
@@ -248,7 +264,7 @@ The above copyright notice and this permission notice shall be included in all c
     <!-- Control Center for Paper Kit: parallax effects, scripts for the example pages etc -->
     <script src="<?=site_url('lib/paper-kit-2')?>/js/paper-kit.js?v=2.2.0" type="text/javascript"></script>
     <script src="<?=site_url('js/default.js')?>" type="text/javascript"></script>
-    <script src="<?=site_url('js/dynamic-img.js?v=2')?>" type="text/javascript"></script>
+    <script src="<?=site_url('js/dynamic-img.js?v=3')?>" type="text/javascript"></script>
     <?php 
         if (isset($ui_js)) {
             if (is_array($ui_js)) {

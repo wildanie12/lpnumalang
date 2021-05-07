@@ -9,6 +9,18 @@ use App\Models\WilayahModel;
 
 class Mitra extends Controller
 {
+	protected $sidebar;
+
+	function __construct() {
+		$this->sidebar = [
+			"Home|fas fa-home|". base_url(),
+			"Mitra|fas fa-list|". site_url('mitra'),
+			"-|fab fa-facebook|https://www.facebook.com/groups/1576452679187898/?ref=share",
+			"-|fab fa-youtube|https://youtube.com/c/PENGAMBUHMALANGRAYA99",
+		];
+	}
+
+
 	public function index()
 	{
 		
@@ -25,15 +37,7 @@ class Mitra extends Controller
 		$data['ui_js'] = [
 			"lib/light-slider/js/lightslider.min.js"
 		];
-		$data['ui_navbar'] = [
-			"Home|fas fa-home|". base_url(),
-			"Mitra|fas fa-list|". site_url('mitra'),
-			"LPNU Kecamatan" => [
-				"Sub #1|fab fa-facebook|https://www.facebook.com/",
-				"Sub #2|fab fa-twitter|https://www.twitter.com/",
-				"Sub #3|fab fa-instagram|https://www.instagram.com/"
-			],
-		];
+		$data['ui_navbar'] = $this->sidebar;
 		$kategoriModel = new \App\Models\KategoriUsahaModel();
 		$data['data_kategori'] = $kategoriModel->findAll();
 		return view('mitra/list', $data);
@@ -74,15 +78,7 @@ class Mitra extends Controller
 			$data['ui_js'] = [
 				"lib/light-slider/js/lightslider.min.js"
 			];
-			$data['ui_navbar'] = [
-				"Home|fas fa-home|". base_url(),
-				"Mitra|fas fa-list|". site_url('mitra'),
-				"LPNU Kecamatan" => [
-					"Sub #1|fab fa-facebook|https://www.facebook.com/",
-					"Sub #2|fab fa-twitter|https://www.twitter.com/",
-					"Sub #3|fab fa-instagram|https://www.instagram.com/"
-				],
-			];
+			$data['ui_navbar'] = $this->sidebar;
 			return view('mitra/detail', $data);
 		}
 		else {
