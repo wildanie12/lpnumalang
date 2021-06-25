@@ -9,8 +9,8 @@ class Artikel extends Controller
 		"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
 		"Data Mitra|fas fa-store|primary|admin/mitra",
 		"Pengguna|fas fa-users|primary|admin/pengguna",
-		"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
-		"Konfigurasi|fas fa-cog|primary|admin/mitra",
+		"Tata Letak|fas fa-ruler-combined|primary|admin/tataletak",
+		"Konfigurasi|fas fa-cog|primary|admin/konfigurasi",
 	];
 	protected $navbar_link = [
 		"Tulis Artikel|fas fa-pencil-alt|admin/postingan/artikel/tambah|primary",
@@ -51,7 +51,9 @@ class Artikel extends Controller
 		if (!$data['userdata']) {
 			return redirect()->to(site_url('logout'));
 		}
-		$data['ui_title'] = "Data Mitra LPNU - LPNU Administrator";
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+		$data['ui_title'] = "Administrator - Daftar Artikel";
 		$data['ui_sidebar'] = $this->sidebar_link;
 		$data['ui_sidebar_active'] = 'Postingan';
 
@@ -189,6 +191,11 @@ class Artikel extends Controller
 					}
 				}
 
+				$pageViewModel = new \App\Models\PageViewModel();
+				$pageViewModel->where('postingan_id', $id)
+					->where('jenis_postingan', 'artikel')
+					->delete();
+
 				$artikelModel->delete($id);
 				$json = [
 					'status' => 'success',
@@ -230,7 +237,9 @@ class Artikel extends Controller
 			"lib/dropzone/js/dropzone.js",
 			"lib/ckeditor5/build/ckeditor.js"
 		];
-		$data['ui_title'] = "Tambah data Mitra - LPNU Administrator";
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+		$data['ui_title'] = "Administrator - Tulis Artikel";;
 		$data['ui_sidebar'] = $this->sidebar_link;
 		$data['ui_sidebar_active'] = 'Postingan';
 
@@ -259,7 +268,9 @@ class Artikel extends Controller
 				"lib/dropzone/js/dropzone.js",
 				"lib/ckeditor5/build/ckeditor.js"
 			];
-			$data['ui_title'] = "Tambah data Mitra - LPNU Administrator";
+			$konfigurasiModel = new \App\Models\KonfigurasiModel();
+			$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+			$data['ui_title'] = "Administrator - Edit Artikel";;
 			$data['ui_sidebar'] = $this->sidebar_link;
 			$data['ui_sidebar_active'] = 'Postingan';
 

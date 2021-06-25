@@ -36,6 +36,8 @@ class Admin extends Controller
 
 	public function list()
 	{	
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
 		$data['userdata'] = $this->auth();
 		if (!$data['userdata']) {
 			return redirect()->to(site_url('logout'));
@@ -45,14 +47,14 @@ class Admin extends Controller
 		$data['ui_js'] = [
 			"js/dynamic-img.js"
 		];
-		$data['ui_title'] = "Data Mitra LPNU - LPNU Administrator";
+		$data['ui_title'] = "Administrator - Daftar Admin";
 		$data['ui_sidebar'] = [
 			"Dashboard|fas fa-tachometer-alt|primary|admin",
 			"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
 			"Data Mitra|fas fa-store|primary|admin/mitra",
 			"Pengguna|fas fa-users|primary|admin/pengguna",
-			"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
-			"Konfigurasi|fas fa-cog|primary|admin/mitra",
+			"Tata Letak|fas fa-ruler-combined|primary|admin/tataletak",
+			"Konfigurasi|fas fa-cog|primary|admin/konfigurasi",
 		];
 		$data['ui_sidebar_active'] = 'Pengguna';
 
@@ -71,6 +73,9 @@ class Admin extends Controller
 
 	public function tambah()
 	{
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+
 		$data['userdata'] = $this->auth();
 		if (!$data['userdata']) {
 			return redirect()->to(site_url('logout'));
@@ -80,7 +85,7 @@ class Admin extends Controller
 		$data['ui_js'] = [
 			"js/dynamic-img.js"
 		];
-		$data['ui_title'] = "Data Mitra LPNU - LPNU Administrator";
+		$data['ui_title'] = "Administrator - Tambah akun admin";
 		$data['ui_sidebar'] = [
 			"Dashboard|fas fa-tachometer-alt|primary|admin",
 			"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
@@ -188,6 +193,9 @@ class Admin extends Controller
 
 	public function edit()
 	{	
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+		
 		$data['userdata'] = $this->auth();
 		if (!$data['userdata']) {
 			return redirect()->to(site_url('logout'));
@@ -197,7 +205,7 @@ class Admin extends Controller
 		$data['ui_js'] = [
 			"js/dynamic-img.js"
 		];
-		$data['ui_title'] = "Data Mitra LPNU - LPNU Administrator";
+		$data['ui_title'] = "Administrator - Edit profil";
 		$data['ui_sidebar'] = [
 			"Dashboard|fas fa-tachometer-alt|primary|admin",
 			"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",

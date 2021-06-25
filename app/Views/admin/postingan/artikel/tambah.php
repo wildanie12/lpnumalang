@@ -6,7 +6,7 @@
 		<?=csrf_field()?>
 		<div class="row">
 			<div class="col-lg-8">
-				<div class="card">
+				<div class="card no-transform">
 					<div class="card-header p-3" style="line-height: 8px">
 						<h3 class="card-title mb-0 pb-0">Tulis artikel untuk halaman depan</h3>
 						<span class="text-muted text-uppercase font-weight-bold" style="font-size: 8pt;">Anda bisa menuliskan apapun seperti: berita, pengumuman, artikel, dsb.</span>
@@ -248,7 +248,6 @@
 
 
 		function onEditorReady(editor) {
-
 			// Event jika gambar dihapus saat berada di editor
 			editor.model.document.on('change:data', e => {
 				listImagesNew = getListImages(editor.getData());

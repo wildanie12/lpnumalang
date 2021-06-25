@@ -1,4 +1,26 @@
 <?php $this->extend('template/blog/homepage')?>
+<?php $this->section('metaTag')?>
+<!-- Primary MetaTag -->
+<meta name="title" content="<?=$konfigurasi['APP_JUDUL']['value']?>">
+<meta name='description' content="<?=$konfigurasi['APP_DESCRIPTION']['value_text']?>">
+<!-- OpenGraph MetaTag -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="<?=base_url()?>">
+<meta property="og:title" content="<?=$konfigurasi['APP_JUDUL']['value']?>">
+<meta property="og:description" content="<?=$konfigurasi['APP_DESCRIPTION']['value_text']?>">
+<meta property="og:image" content="<?=site_url($konfigurasi['APP_LOGO']['value_text'])?>">
+<!-- Twitter -->
+<meta property="twitter:card" content="summary">
+<meta property="twitter:url" content="<?=base_url()?>">
+<meta property="twitter:title" content="<?=$konfigurasi['APP_JUDUL']['value']?>">
+<meta property="twitter:description" content="<?=$konfigurasi['APP_DESCRIPTION']['value_text']?>">
+<meta property="twitter:image" content="<?=site_url($konfigurasi['APP_LOGO']['value_text'])?>">
+<!-- Geo MetaTag -->
+<meta name="geo.region" content="ID" />
+<meta name="geo.placename" content="Malang" />
+<meta name="geo.position" content="-8.001391;112.633424" />
+<meta name="ICBM" content="-8.001391, 112.633424" />
+<?php $this->endSection() ?>
 
 <?php $this->section('content') ?>
 <?php 
@@ -17,20 +39,26 @@
 				 *	view: Carousel
 				 * -------------------------------------------------------------------------------------------------*/
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
 
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 				}
 	?>
 	<div class="col-lg-<?=$content_col['lebar_lg']?> col-md-<?=$content_col['lebar_md']?> col-sm-<?=$content_col['lebar_sm']?> col-<?=$content_col['lebar_xs']?> <?=$content_col['kelas']?>">
@@ -57,6 +85,7 @@
 								$file_url = substr($new_gambar, $base_length);
 								if (file_exists('.' . $file_url)) {
 									$gambar = $new_gambar;
+									break;
 								}
 							}
 						}
@@ -103,30 +132,38 @@
 			} // end if
 			else if ($content_col['view'] == 'card-thumbnail') {
 				/* -------------------------------------------------------------------------------------------------
-				 *	view: Carousel
+				 *	view content: Carousel
 				 * -------------------------------------------------------------------------------------------------*/
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
 
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 				}
 	?>
 
 	<div class="col-lg-<?=$content_col['lebar_lg']?> col-md-<?=$content_col['lebar_md']?> col-sm-<?=$content_col['lebar_sm']?> col-<?=$content_col['lebar_xs']?> <?=$content_col['kelas']?> pt-2 pt-md-0">
 		<div class="row justify-content-center">
 			<?php 
+				$index = 0;
 				foreach ($data_artikel as $index => $artikel) {
+					$index++;
 					$gambar = site_url('img_unavailable.png');
 					if ($artikel['daftar_gambar'] != '') {
 						$data_gambar = explode('|', $artikel['daftar_gambar']);
@@ -135,13 +172,14 @@
 							$file_url = substr($new_gambar, $base_length);
 							if (file_exists('.' . $file_url)) {
 								$gambar = $new_gambar;
+								break;
 							}
 						}
 					}
 			?>
-			<div class="col-lg-12 col-md-12 col-sm-4 col-6 ">
+			<div class="col-lg-12 col-md-12 col-sm-4 col-6 <?=(($index % 2 != 0) ? 'pr-1' : 'pl-1')?> pl-sm-2 pr-sm-2">
 				<div href='<?=site_url($artikel['slug'])?>' class="card card-link ratio-4x3 backdrop-gradient" style="overflow: hidden; margin-bottom: 15px">
-					<img class='center-crop' src="<?=$gambar?>">
+					<img class='center-crop' src="<?=$gambar?>" style="object-fit: cover;">
 					<div class="caption text-left" style="bottom: -10px; width: 90%; line-height: 13px">
 						<?php 
 							if ($artikel['kategori_id'] != '') {
@@ -168,14 +206,17 @@
 	<?php 
 			} // end view: thumbnail-col
 			else if ($content_col['view'] == 'mitra-slider') {
+				/* -------------------------------------------------------------------------------------------------
+				 *	view content: Mitra
+				 * -------------------------------------------------------------------------------------------------*/
 				if ($content_col['jenis_konten'] == 'mitra-terkini') {
-					$data_mitra = $mitraModel->findAll($options->limit);
+					$data_mitra = $mitraModel->orderBy('id', 'desc')->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'mitra-kategori') {
 					$data_mitra = $mitraModel->like('jenis_usaha', $options->kategori_usaha, 'both')->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'mitra-featured') {
-					$data_mitra = $mitraModel->find($options->featured);
+					$data_mitra = $mitraModel->find($options->mitra_featured);
 				}
 	?>
 	<div class="col-lg-<?=$content_col['lebar_lg']?> col-md-<?=$content_col['lebar_md']?> col-sm-<?=$content_col['lebar_sm']?> col-<?=$content_col['lebar_xs']?> <?=$content_col['kelas']?>">
@@ -220,7 +261,7 @@
 				<img class="center-crop-parent" src="<?=$url_gambar?>">
 				<div class="backdrop-gradient"></div>
 				<div class="caption text-left" style="bottom: -4px; line-height: 0; width: 90%">
-					<a href="#" class='text-white'>
+					<a href="<?=site_url('mitra/' . $mitra['id'])?>" class='text-white'>
 						<h5 class="mb-0" style="font-size: 12pt"><?=ucwords(strtolower($mitra['merek_dagang']))?></h5>
 					</a>
 
@@ -254,31 +295,40 @@
 	<?php 
 			} // end view: mitra
 			else if ($content_col['view'] == 'mini-thumbnail-title') {
+				/* -------------------------------------------------------------------------------------------------
+				 *	view content: mini-thumbnail-title
+				 * -------------------------------------------------------------------------------------------------*/
 				$readmore_url = '';
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$readmore_url = site_url('terkini');
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 					$readmore_url = site_url('terpopuler');
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$kategori = $kategoriModel->find($options->kategori_id);
 					if ($kategori != '') {
 						$readmore_url = site_url('kategori/' . $kategori['slug']);
 					}
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 					$readmore_url = site_url('penulis/' . $options->penulis);
 				}
 	?>
-	<div class="col-lg-<?=$content_col['lebar_lg']?> col-md-<?=$content_col['lebar_md']?> col-sm-<?=$content_col['lebar_sm']?> col-<?=$content_col['lebar_xs']?> <?=$content_col['kelas']?> pt-2">
+	<div class="col-lg-<?=$content_col['lebar_lg']?> col-md-<?=$content_col['lebar_md']?> col-sm-<?=$content_col['lebar_sm']?> col-<?=$content_col['lebar_xs']?> <?=$content_col['kelas']?> pt-2 mt-2">
 		<div class="row">
 			<div class="col d-flex justify-content-between align-items-center">
 				<h4 style="font-weight: bold; font-size: 12pt;" class="m-2"><?=$content_col['judul']?></h4>
@@ -303,11 +353,12 @@
 							$file_url = substr($new_gambar, $base_length);
 							if (file_exists('.' . $file_url)) {
 								$gambar = $new_gambar;
+								break;
 							}
 						}
 					}
 		?>
-		<div class="row align-items-center mb-2">
+		<div class="row mt-2 align-items-center mb-2">
 			<div class="col-auto pr-0">
 				<a href="<?=$artikel['slug']?>">
 					<div class="mr-3 artikel-thumbnail" style="overflow: hidden; border-radius: 16px">
@@ -317,7 +368,7 @@
 			</div>
 			<div class="col pl-0">
 				<a href="<?=$artikel['slug']?>" class="text-dark">
-					<h5 class="mb-0" style="font-size: 12pt;font-weight: bold;"><?=substr($artikel['judul'], 0, 61) . ((strlen($artikel['judul']) > 61) ? '...' : '')?></h5>
+					<h5 class="mb-0" style="font-size: 13pt; line-height: 20px; font-weight: bold; font-family: 'Amiri', serif;"><?=substr($artikel['judul'], 0, 61) . ((strlen($artikel['judul']) > 61) ? '...' : '')?></h5>
 				</a>
 				<a href='javascript:void(0)' class="font-weight-bold text-lpnu" style="font-size: 7pt"><?=$nama_hari[date('N', strtotime($artikel['created_at']))]?>, <?=date('d', strtotime($artikel['created_at']))?> <?=$nama_bulan[date('n', strtotime($artikel['created_at']))]?> <?=date('Y', strtotime($artikel['created_at']))?></a>
 			</div>
@@ -330,27 +381,36 @@
 			} // end view: mini-thumbnail-title
 
 			else if ($content_col['view'] == 'card-thumbnail-slider') {
+				/* -------------------------------------------------------------------------------------------------
+				 *	view content: card-thumbnail-slider
+				 * -------------------------------------------------------------------------------------------------*/
 				$readmore_url = '';
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$readmore_url = site_url('terkini');
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 					$readmore_url = site_url('terpopuler');
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$kategori = $kategoriModel->find($options->kategori_id);
 					if ($kategori != '') {
 						$readmore_url = site_url('kategori/' . $kategori['slug']);
 					}
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 					$readmore_url = site_url('penulis/' . $options->penulis);
 				}
 	?>
@@ -378,6 +438,7 @@
 							$file_url = substr($new_gambar, $base_length);
 							if (file_exists('.' . $file_url)) {
 								$gambar = $new_gambar;
+								break;
 							}
 						}
 					}
@@ -401,27 +462,36 @@
 	<?php 
 			} // end view: card-thumbnail-slider
 			else if ($content_col['view'] == 'text-only') {
+				/* -------------------------------------------------------------------------------------------------
+				 *	view content: Text-only
+				 * -------------------------------------------------------------------------------------------------*/
 				$readmore_url = '';
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$readmore_url = site_url('terkini');
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 					$readmore_url = site_url('terpopuler');
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$kategori = $kategoriModel->find($options->kategori_id);
 					if ($kategori != '') {
 						$readmore_url = site_url('kategori/' . $kategori['slug']);
 					}
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 					$readmore_url = site_url('penulis/' . $options->penulis);
 				}
 	?>
@@ -449,23 +519,23 @@
 		<div class="row py-3 border-bottom">
 			<div class="col">
 				<a href="<?=site_url($artikel['slug'])?>" class="text-dark">
-					<h5 class="mb-0" style="font-size: 12pt;font-weight: bold;"><?=$artikel['judul']?></h5>
+					<h5 class="mb-0" style="color: #3a3a3a;font-size: 13pt; line-height: 20px; font-weight: bold; font-family: 'Amiri', serif;"><?=$artikel['judul']?></h5>
 				</a> 
 				<div class="font-weight-bold text-lpnu d-flex align-items-center mt-2" style="font-size: 7pt">
 					<div class="d-flex flex-row align-items-center">
-						<div class='rounded-circle mr-1' style="width: 20px; height: 20px; overflow: hidden">
-							<img class="foto-profil" src="<?=(($penulis != '') ? site_url('images/profile/' . $penulis['avatar']) : '')?>">
-						</div>
 						<?php 
 							if ($penulis != '') {
 						?>
+						<div class='rounded-circle mr-2' style="width: 20px; height: 20px; overflow: hidden">
+							<img class="foto-profil" src="<?=(($penulis != '') ? site_url('images/profile/' . $penulis['avatar']) : '')?>">
+						</div>
 						<a href='<?=site_url('penulis/' . $penulis['username'])?>' class="font-weight-bold text-dark"><?=$penulis['nama_lengkap']?></a>
 						<?php 
 							}
 						?>
 					</div>
-					<i class="fas fa-circle px-2" style="font-size: 4pt"></i>
-					29 Januari 2019
+					<i class="fas fa-circle px-2 text-dark" style="font-size: 4pt"></i>
+					<?=$nama_hari[date('N', strtotime($artikel['created_at']))]?>, <?=date('d', strtotime($artikel['created_at']))?> <?=$nama_bulan[date('n', strtotime($artikel['created_at']))]?> <?=date('Y', strtotime($artikel['created_at']))?> 
 					<i class="fas fa-ci	rcle px-2" style="font-size: 4pt"></i>
 					<?php 
 						if ($artikel['kategori_id'] != '') {
@@ -525,23 +595,29 @@
 			$options = json_decode($content_col['options']);
 			if ($content_col['view'] == 'carousel') {
 				/* -------------------------------------------------------------------------------------------------
-				 *	view: Carousel
+				 *	view widget: Carousel
 				 * -------------------------------------------------------------------------------------------------*/
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
 
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 				}
 	?>
 	<div class="col-lg-<?=$content_col['lebar_lg']?> col-md-<?=$content_col['lebar_md']?> col-sm-<?=$content_col['lebar_sm']?> col-<?=$content_col['lebar_xs']?> <?=$content_col['kelas']?>">
@@ -568,6 +644,7 @@
 								$file_url = substr($new_gambar, $base_length);
 								if (file_exists('.' . $file_url)) {
 									$gambar = $new_gambar;
+									break;
 								}
 							}
 						}
@@ -612,72 +689,6 @@
 	</div> <!-- end artikel-carousel -->
 	<?php 
 			} // end if
-			else if ($content_col['view'] == 'card-thumbnail') {
-				/* -------------------------------------------------------------------------------------------------
-				 *	view: card-thumbnail
-				 * -------------------------------------------------------------------------------------------------*/
-				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
-				}
-				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
-				}
-				else if ($content_col['jenis_konten'] == 'kategori'){
-
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
-				}
-				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
-				} 
-				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
-				}
-	?>
-
-	<div class="col-lg-<?=$content_col['lebar_lg']?> col-md-<?=$content_col['lebar_md']?> col-sm-<?=$content_col['lebar_sm']?> col-<?=$content_col['lebar_xs']?> <?=$content_col['kelas']?> pt-2 pt-md-0">
-		<div class="row justify-content-center">
-			<?php 
-				foreach ($data_artikel as $index => $artikel) {
-					$gambar = site_url('img_unavailable.png');
-					if ($artikel['daftar_gambar'] != '') {
-						$data_gambar = explode('|', $artikel['daftar_gambar']);
-						foreach ($data_gambar as $new_gambar) {
-							$base_length = strlen(base_url());
-							$file_url = substr($new_gambar, $base_length);
-							if (file_exists('.' . $file_url)) {
-								$gambar = $new_gambar;
-							}
-						}
-					}
-			?>
-			<div class="col-lg-12 col-md-12 col-sm-4 col-6 ">
-				<div href='<?=site_url($artikel['slug'])?>' class="card card-link ratio-4x3 backdrop-gradient" style="overflow: hidden; margin-bottom: 15px">
-					<img class='center-crop' src="<?=$gambar?>">
-					<div class="caption text-left" style="bottom: -10px; width: 90%; line-height: 13px">
-						<?php 
-							if ($artikel['kategori_id'] != '') {
-								$data_kategori_id = explode('|', $artikel['kategori_id']);
-								foreach ($data_kategori_id as $index => $kategori_id) {
-									$kategori = $kategoriModel->find($kategori_id);
-						?>
-						<?=(($index == 0) ? '' : '.')?>
-						<a href='<?=site_url('kategori/'. (($kategori != '') ? $kategori['slug'] : '') )?>' class="font-weight-bold text-success" style="font-size: 7pt"><?=(($kategori != '') ? $kategori['kategori'] : '')?></a>
-						<?php
-								}
-							}
-						?>
-						<a href="<?=site_url($artikel['slug'])?>" class="text-white"><h5 class="mb-0"><?=$artikel['judul']?></h5></a>
-					</div>
-				</div>
-			</div>
-			<?php 
-				}
-			?>
-		</div>
-	</div> <!-- end artikel-thumbnail -->
-
-	<?php 
-			} // end view: thumbnail-col
 			else if ($content_col['view'] == 'mitra-slider') {
 				/* -------------------------------------------------------------------------------------------------
 				 *	view widget: Mitra-slider
@@ -773,29 +784,35 @@
 				 * -------------------------------------------------------------------------------------------------*/
 				$readmore_url = '';
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$readmore_url = site_url('terkini');
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 					$readmore_url = site_url('terpopuler');
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$kategori = $kategoriModel->find($options->kategori_id);
 					if ($kategori != '') {
 						$readmore_url = site_url('kategori/' . $kategori['slug']);
 					}
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 					$readmore_url = site_url('penulis/' . $options->penulis);
 				}
 	?>
-	<div class="col-12">
+	<div class="col-12 <?=$content_col['kelas']?>">
 		<div class="card mb-0 border border-<?=((isset($options->border)) ? $options->border : '')?>" style="border-radius: 4px">
 			<div class="card-header d-flex justify-content-between align-items-center bg-guest-orange py-2">
 				<div class="text-white widget-title"><?=$content_col['judul']?></div>
@@ -820,6 +837,7 @@
 								$file_url = substr($new_gambar, $base_length);
 								if (file_exists('.' . $file_url)) {
 									$gambar = $new_gambar;
+									break;
 								}
 							}
 						}
@@ -833,7 +851,7 @@
 						</a>
 					</div>
 					<div class="col pl-0">
-						<a href="#">
+						<a href="<?=site_url($artikel['slug'])?>">
 							<h5 class="mb-0" style="font-size: 10pt;font-weight: bold;"><?=substr($artikel['judul'], 0, 61) . ((strlen($artikel['judul']) > 61) ? '...' : '')?></h5>
 						</a>
 						<?php 
@@ -868,29 +886,35 @@
 				 * -------------------------------------------------------------------------------------------------*/
 				$readmore_url = '';
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$readmore_url = site_url('terkini');
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 					$readmore_url = site_url('terpopuler');
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$kategori = $kategoriModel->find($options->kategori_id);
 					if ($kategori != '') {
 						$readmore_url = site_url('kategori/' . $kategori['slug']);
 					}
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 					$readmore_url = site_url('penulis/' . $options->penulis);
 				}
 	?>
-	<div class="col-12 pb-2">
+	<div class="col-12 pb-2 <?=$content_col['kelas']?>">
 		<div class="header d-flex flex-row justify-content-between align-items-center py-2 px-0 border-0">
 			<h4 class="m-2" style="font-weight: bold; font-size: 12pt;"><?=$content_col['judul']?></h4>
 			<?php 
@@ -914,6 +938,7 @@
 							$file_url = substr($new_gambar, $base_length);
 							if (file_exists('.' . $file_url)) {
 								$gambar = $new_gambar;
+								break;
 							}
 						}
 					}
@@ -942,25 +967,31 @@
 				 * -------------------------------------------------------------------------------------------------*/
 				$readmore_url = '';
 				if ($content_col['jenis_konten'] == 'terkini') {
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$readmore_url = site_url('terkini');
 				}
 				else if ($content_col['jenis_konten'] == 'terpopuler'){
-					$data_artikel = $artikelModel->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel
+						->select('COUNT(page_view.id) as jumlah_view, artikel.*')
+						->join('page_view', 'page_view.postingan_id = artikel.id', 'left')
+						->groupBy('artikel.id')
+						->orderBy('jumlah_view', 'desc')
+						->where('status', 'dipublikasikan')
+						->findAll($options->limit);
 					$readmore_url = site_url('terpopuler');
 				}
 				else if ($content_col['jenis_konten'] == 'kategori'){
-					$data_artikel = $artikelModel->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->like('kategori_id', $options->kategori_id, 'both')->orderBy('updated_at', 'desc')->findAll($options->limit);
 					$kategori = $kategoriModel->find($options->kategori_id);
 					if ($kategori != '') {
 						$readmore_url = site_url('kategori/' . $kategori['slug']);
 					}
 				}
 				else if ($content_col['jenis_konten'] == 'featured') {
-					$data_artikel = $artikelModel->find($options->featured);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->find($options->featured);
 				} 
 				else if ($content_col['jenis_konten'] == 'penulis') {
-					$data_artikel = $artikelModel->where('penulis_username', $options->penulis)->findAll($options->limit);
+					$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('penulis_username', $options->penulis)->findAll($options->limit);
 					$readmore_url = site_url('penulis/' . $options->penulis);
 				}
 	?>
@@ -988,28 +1019,29 @@
 						<a href="<?=site_url($artikel['slug'])?>" class="text-dark">
 							<h5 class="mb-0" style="font-size: 10pt;font-weight: bold;"><?=$artikel['judul']?></h5>
 						</a> 
-						<div class="font-weight-bold text-lpnu d-flex align-items-center" style="font-size: 7pt">
+						<div class="font-weight-bold text-lpnu d-flex justify-content-between align-items-center" style="font-size: 7pt">
 							<?=$nama_hari[date('N', strtotime($artikel['created_at']))]?>, <?=date('d', strtotime($artikel['created_at']))?> <?=$nama_bulan[date('n', strtotime($artikel['created_at']))]?> <?=date('Y', strtotime($artikel['created_at']))?> 
-							<i class="fas fa-circle text-dark px-2" style="font-size: 4pt"></i>
-							<?php 
-								if ($artikel['kategori_id'] != '') {
-									$kategori_id_array = explode('|', $artikel['kategori_id']);
-									foreach ($kategori_id_array as $index => $kategori_id) {
-										$kategori = $kategoriModel->find($kategori_id);
-										if ($kategori != '') {
-											if ($index != 0)
-							?>
-							<a href='<?=site_url('kategori/' . $kategori['slug'])?>' class="font-weight-bold">
-								<span class="badge badge-warning p-1 text-dark font-weight-bold mr-1 mb-0">
-									<i class="fas fa-tag"></i> 
-									<?=$kategori['kategori']?>
-								</span>
-							</a>
-							<?php 
+							<div>
+								<?php 
+									if ($artikel['kategori_id'] != '') {
+										$kategori_id_array = explode('|', $artikel['kategori_id']);
+										foreach ($kategori_id_array as $index => $kategori_id) {
+											$kategori = $kategoriModel->find($kategori_id);
+											if ($kategori != '') {
+												if ($index != 0)
+								?>
+								<a href='<?=site_url('kategori/' . $kategori['slug'])?>' class="font-weight-bold">
+									<span class="badge badge-warning p-1 text-dark font-weight-bold mr-1 mb-0">
+										<i class="fas fa-tag"></i> 
+										<?=$kategori['kategori']?>
+									</span>
+								</a>
+								<?php 
+											}
 										}
 									}
-								}
-							?>
+								?>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -1043,9 +1075,9 @@
 				/* -------------------------------------------------------------------------------------------------
 				 *	view widget: Arsip
 				 * -------------------------------------------------------------------------------------------------*/
-				$data_tahun = $artikelModel->select("DISTINCT(YEAR(created_at)) AS year")->orderBy('year', 'desc')->findAll();
+				$data_tahun = $artikelModel->where('status', 'dipublikasikan')->select("DISTINCT(YEAR(created_at)) AS year")->orderBy('year', 'desc')->findAll();
 	?>
-	<div class="col">
+	<div class="col <?=$content_col['kelas']?>">
 		<div class="card mb-0 border border-<?=((isset($options->border)) ? $options->border : '')?>" style='border-radius: 4px'>
 			<div class="card-header py-2 bg-<?=((isset($options->background)) ? $options->background : 'white')?>">
 				<div class="card-title widget-title mb-0 text-<?=((isset($options->color)) ? $options->color : 'dark')?>"><?=$content_col['judul']?></div>
@@ -1054,7 +1086,7 @@
 				<ul class="nav flex-column" id="accordion-<?=$content_col['id']?>">
 					<?php 
 						foreach ($data_tahun as $index_tahun => $tahun) {
-							$data_bulan = $artikelModel->select("DISTINCT(MONTH(created_at)) AS month")->where('YEAR(created_at)', $tahun['year'])->orderBy('month', 'desc')->findAll();
+							$data_bulan = $artikelModel->where('status', 'dipublikasikan')->select("DISTINCT(MONTH(created_at)) AS month")->where('YEAR(created_at)', $tahun['year'])->orderBy('month', 'desc')->findAll();
 
 					?>
 					<li class="nav-item bg-default">
@@ -1065,7 +1097,7 @@
 							<ul class="nav flex-column" id="accordion-<?=$content_col['id']?>-<?=$tahun['year']?>">
 								<?php 
 									foreach ($data_bulan as $index_bulan => $bulan) {
-										$data_artikel = $artikelModel->where('YEAR(created_at)', $tahun['year'])->where('MONTH(created_at)', $bulan['month'])->findAll();
+										$data_artikel = $artikelModel->where('status', 'dipublikasikan')->where('YEAR(created_at)', $tahun['year'])->where('MONTH(created_at)', $bulan['month'])->findAll();
 								?>
 								<li class="nav-item bg-default pl-2">
 									<h5 style="font-size: 9pt; cursor: pointer" class="nav-link font-weight-bold mb-0 p-3" data-toggle="collapse" data-target="#collapse-<?=$content_col['id']?>-<?=$tahun['year']?>-<?=$bulan['month']?>">
@@ -1098,70 +1130,6 @@
 					<?php 
 						}
 					?>
-					<li class="nav-item">
-						<h5 style="font-size: 9pt; cursor: pointer" class="nav-link font-weight-bold mb-0 p-3 collapsed" data-toggle="collapse" data-target="#collapse-2">2020</h5>
-						<div class="collapse" data-parent="#accordion-1" id="collapse-2">
-							<ul class="nav flex-column">
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-							</ul>
-						</div>
-					</li>
-					<li class="nav-item">
-						<h5 style="font-size: 9pt; cursor: pointer" class="nav-link font-weight-bold mb-0 p-3 " data-toggle="collapse" data-target="#collapse-3">2019</h5>
-						<div class="collapse" data-parent="#accordion-1" id="collapse-3">
-							<ul class="nav flex-column">
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link bg-dark" style="color: white !important; font-size: 8pt; font-weight: bold">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit
-									</a>
-								</li>
-							</ul>
-						</div>
-					</li>
 				</ul>	
 			</div>
 		</div>
@@ -1177,15 +1145,6 @@
 <?php 
 	} // end foreach row
 ?>
-<div class="row" id="widget-artikel_populer-1">
-	
-</div> <!-- end widget Artikel paling populer -->
-
-<div class="row">
-</div> <!-- end widget-calendar -->
-
-<div class="row">
-</div>
 <?php $this->endSection()?>
 
 
@@ -1236,7 +1195,7 @@
 						$options = json_decode($content_col['options']);
 		?>
 		$("#carousel-<?=$content_col['id']?>").carousel({
-			interval: <?=((isset($options->duration)) ? $options->duration : '5000')?>,
+			interval: <?=((isset($options->durasi)) ? $options->durasi : '5000')?>,
 			ride: true,
 		})
 		$carouselInner = $("#carousel-<?=$content_col['id']?> .carousel-inner")
@@ -1258,7 +1217,7 @@
 			pager: false,
 			loop: true,
 			auto: true,
-			pause: <?=((isset($options->duration))? $options->duration : '5000')?>,
+			pause: <?=((isset($options->durasi))? $options->durasi : '5000')?>,
 			onSliderLoad: function() {
 				$(".center-crop-parent").one("load", function() {
 				    hitungAspectRatio($(this))
@@ -1306,7 +1265,7 @@
 						$options = json_decode($content_col['options']);
 		?>
 		$("#carousel-<?=$content_col['id']?>").carousel({
-			interval: <?=((isset($options->duration)) ? $options->duration : '5000')?>,
+			interval: <?=((isset($options->durasi)) ? $options->durasi : '5000')?>,
 			ride: true,
 		})
 		var $carouselInner = $("#carousel-<?=$content_col['id']?> .carousel-inner")
@@ -1349,7 +1308,7 @@
 			pager: false,
 			loop: true,
 			auto: true,
-			pause: <?=((isset($options->duration))? $options->duration : '5000')?>,
+			pause: <?=((isset($options->durasi))? $options->durasi : '5000')?>,
 			onSliderLoad: function() {
 				$(".center-crop-parent").one("load", function() {
 				    hitungAspectRatio($(this))

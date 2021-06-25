@@ -14,11 +14,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta name="author" content="Creative Tim">
     <title><?=((isset($ui_title)) ? $ui_title : '[Tidak ada Judul]')?></title>
+    <meta name='robots' content="noindex, nofollow">
     <!-- Favicon -->
-    <link rel="icon" href="<?=site_url('LPNU LOGO XS.png')?>" type="image/png">
+    <link rel="icon" href="<?=site_url($konfigurasi['APP_LOGO'])?>" type="image/png">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -51,16 +50,14 @@
             </div>
             <!-- Brand -->
             <div class="sidenav-header align-items-center mb-2">
-                <a class="navbar-brand p-0" href="javascript:void(0)">
+                <a class="navbar-brand p-0" href="<?=base_url()?>">
                     <div class="d-flex justify-content-center">
-                        <img src="<?=site_url('Lpnulogo.png')?>" class="navbar-brand-img" alt="..." style="max-height: 70px;">
+                        <img src="<?=site_url($konfigurasi['APP_LOGO']['value_text'])?>" class="navbar-brand-img" alt="..." style="max-height: 70px;">
                         <div class="ml-2 text-left d-flex flex-column justify-content-center">
                             <h4 class="text-uppercase mb-0" style="font-size: 11pt; line-height: 15px; font-weight: bolder;">
-                                Lembaga <br/>
-                                Perekonomian <br/>
-                                Nahdlatul Ulama
+                                <?=$konfigurasi['APP_FOOTER_JUDUL']['value']?>
                             </h4> 
-                            <div style="font-size: 10pt">Kab. Malang</div>
+                            <div style="font-size: 10pt"><?=$konfigurasi['APP_FOOTER_SUBJUDUL']['value']?></div>
                         </div>
                     </div>
                 </a>

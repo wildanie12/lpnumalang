@@ -9,6 +9,26 @@ use App\Models\KategoriModel;
 
 class Mitra extends Controller
 {
+	/**
+	 * Intelephense @mixin solved
+	 * 
+	 * @var HTTP\IncomingRequest
+	 */
+	protected $request;
+	protected $sidebar_link = [
+		"Dashboard|fas fa-tachometer-alt|primary|admin",
+		"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
+		"Data Mitra|fas fa-store|primary|admin/mitra",
+		"Pengguna|fas fa-users|primary|admin/pengguna",
+		"Tata Letak|fas fa-ruler-combined|primary|admin/tataletak",
+		"Konfigurasi|fas fa-cog|primary|admin/konfigurasi",
+	];
+	protected $navbar_link = [
+		"Tambah Mitra|fas fa-plus-circle|admin/mitra/tambah|primary",
+		"List Mitra|fas fa-list|admin/mitra/",
+		"Laporan|fas fa-clipboard-list|admin/mitra/laporan",
+		"Statistik|fas fa-chart-line|admin/mitra/statistik",
+	];
 	function auth() {
 		helper('cookie');
 		$logged_username = get_cookie('logged_username');
@@ -43,24 +63,14 @@ class Mitra extends Controller
 			return redirect()->to(site_url('logout'));
 		}
 
-		$data['ui_title'] = "Data Mitra LPNU - LPNU Administrator";
-		$data['ui_sidebar'] = [
-			"Dashboard|fas fa-tachometer-alt|primary|admin",
-			"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
-			"Data Mitra|fas fa-store|primary|admin/mitra",
-			"Pengguna|fas fa-users|primary|admin/pengguna",
-			"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
-			"Konfigurasi|fas fa-cog|primary|admin/mitra",
-		];
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+		$data['ui_title'] = "Administrator - Daftar Mitra";		
+		$data['ui_sidebar'] = $this->sidebar_link;
 		$data['ui_sidebar_active'] = 'Data Mitra';
 
-		$data['ui_navbar'] = [
-			"Tambah Mitra|fas fa-plus-circle|admin/mitra/tambah|primary",
-			"List Mitra|fas fa-list|admin/mitra/",
-			"Laporan|fas fa-clipboard-list|admin/mitra/laporan",
-			"Statistik|fas fa-chart-line|admin/mitra/statistik",
-		];
-		$data['ui_navbar_active'] = "List Mitra";
+		$data['ui_navbar'] = $this->navbar_link;
+		$data['ui_navbar_active'] = 'List Mitra';
 		$wilayahModel = new \App\Models\WilayahModel();
 		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();		
 
@@ -140,23 +150,12 @@ class Mitra extends Controller
 			"lib/dropzone/js/dropzone.js",
 			"lib/ckeditor5/build/ckeditor.js"
 		];
-		$data['ui_title'] = "Tambah data Mitra - LPNU Administrator";
-		$data['ui_sidebar'] = [
-			"Dashboard|fas fa-tachometer-alt|primary|admin",
-			"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
-			"Data Mitra|fas fa-store|primary|admin/mitra",
-			"Pengguna|fas fa-users|primary|admin/pengguna",
-			"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
-			"Konfigurasi|fas fa-cog|primary|admin/mitra",
-		];
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+		$data['ui_title'] = "Administrator - Tambah data Mitra";
+		$data['ui_sidebar'] = $this->sidebar_link;
+		$data['ui_navbar'] = $this->navbar_link;
 		$data['ui_sidebar_active'] = 'Data Mitra';
-
-		$data['ui_navbar'] = [
-			"Tambah Mitra|fas fa-plus-circle|admin/mitra/tambah|primary",
-			"List Mitra|fas fa-list|admin/mitra/",
-			"Laporan|fas fa-clipboard-list|admin/mitra/laporan",
-			"Statistik|fas fa-chart-line|admin/mitra/statistik",
-		];
 		$data['ui_navbar_active'] = "Tambah Mitra";
 		$wilayahModel = new \App\Models\WilayahModel();
 		$kategoriModel = new \App\Models\KategoriUsahaModel();
@@ -387,23 +386,13 @@ class Mitra extends Controller
 				"lib/dropzone/js/dropzone.js",
 				"lib/ckeditor5/build/ckeditor.js"
 			];
-			$data['ui_title'] = "Edit data Mitra - LPNU Administrator";
-			$data['ui_sidebar'] = [
-				"Dashboard|fas fa-tachometer-alt|primary|admin",
-				"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
-				"Data Mitra|fas fa-store|primary|admin/mitra",
-			"Pengguna|fas fa-users|primary|admin/pengguna",
-				"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
-				"Konfigurasi|fas fa-cog|primary|admin/mitra",
-			];
+			$konfigurasiModel = new \App\Models\KonfigurasiModel();
+			$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+			$data['ui_title'] = "Administrator - Edit data Mitra";
+			$data['ui_sidebar'] = $this->sidebar_link;
 			$data['ui_sidebar_active'] = 'Data Mitra';
 
-			$data['ui_navbar'] = [
-				"Tambah Mitra|fas fa-plus-circle|admin/mitra/tambah|primary",
-				"List Mitra|fas fa-list|admin/mitra/",
-				"Laporan|fas fa-clipboard-list|admin/mitra/laporan",
-				"Statistik|fas fa-chart-line|admin/mitra/statistik",
-			];
+			$data['ui_navbar'] = $this->navbar_link;
 			$data['ui_navbar_active'] = "";
 			$wilayahModel = new \App\Models\WilayahModel();
 			$kategoriModel = new \App\Models\KategoriUsahaModel();

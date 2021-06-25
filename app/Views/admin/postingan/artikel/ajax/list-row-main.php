@@ -94,7 +94,7 @@
 						}
 					?>
 					<!-- -------------------------- -->
-					<a href="#" data-toggle='tooltip' title='Pratinjau' class="btn-content-pratinjau btn btn-primary btn-sm mr-1 rounded-circle">
+					<a href="<?=site_url($artikel['slug'])?>" target="_blank" data-toggle='tooltip' title='Pratinjau' class="btn-content-pratinjau btn btn-primary btn-sm mr-1 rounded-circle">
 						<i class="fas fa-eye"></i>
 					</a>
 					<a href="<?=site_url('admin/postingan/artikel/edit/' . $artikel['id'])?>" data-toggle='tooltip' title='Edit' class="btn btn-default btn-sm mr-1 rounded-circle">

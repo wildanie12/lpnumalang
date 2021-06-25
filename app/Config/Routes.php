@@ -18,8 +18,8 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
-$routes->setDefaultMethod('index');
+$routes->setDefaultController('Blog');
+$routes->setDefaultMethod('homepage');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(true);
@@ -37,12 +37,15 @@ $routes->setAutoRoute(true);
 // $routes->add('/', 'Home::index'); Change this if it is complete
 
 
-$routes->add('/admin', 'Admin\Mitra::list'); // Temporary
 
 $routes->add('/admin/mitra/', 'Admin\Mitra::list'); // Mitra Home
-$routes->get('/admin/mitra/ajax-list/(:any)', 'Admin\Mitra::ajax_list/$1');
-$routes->get('/admin/mitra/ajax-single', 'Admin\Mitra::ajax_list/');
+$routes->add('/admin/mitra/ajax-list/(:any)', 'Admin\Mitra::ajax_list/$1');
+$routes->add('/admin/mitra/ajax-single', 'Admin\Mitra::ajax_list/');
 $routes->add('/admin/mitra/(:any)', 'Admin\Mitra::$1'); // Mitra Re-route method
+
+$routes->add('/admin', 'Admin\Dashboard::index'); // Dashboard
+$routes->add('/admin/dashboard/', 'Admin\Dashboard::index'); // Dashboard Re-route method
+$routes->add('/admin/dashboard/(:any)', 'Admin\Dashboard::$1'); // Dashboard Re-route method
 
 $routes->add('/admin/pengguna/', 'Admin\Admin::list'); // Admin Re-route method
 $routes->post('/admin/pengguna/', 'Admin\Admin::remove'); // Admin Re-route method
@@ -57,10 +60,15 @@ $routes->add('/admin/postingan/artikel/(:any)', 'Admin\Artikel::$1'); // Posting
 $routes->add('/admin/postingan/halaman/', 'Admin\Halaman::list'); // Postingan Halaman Re-route method
 $routes->add('/admin/postingan/halaman/(:any)', 'Admin\Halaman::$1'); // Postingan Halaman Re-route method
 
+$routes->add('/admin/tataletak/', 'Admin\TataLetak::homepage'); // Tataletak Index page
+$routes->add('/admin/tataletak/(:any)', 'Admin\TataLetak::$1'); // Tataletak Pages
 
-$routes->get('/login', 'Admin\Auth::index');
+$routes->add('/admin/konfigurasi/', 'Admin\Konfigurasi::index'); // Tataletak Index page
+$routes->add('/admin/konfigurasi/(:any)', 'Admin\Konfigurasi::$1'); // Tataletak Pages
+
+$routes->add('/login', 'Admin\Auth::index');
 $routes->post('/login', 'Admin\Auth::do_login');
-$routes->get('/logout', 'Admin\Auth::logout');
+$routes->add('/logout', 'Admin\Auth::logout');
 
 $routes->add('/mitra', 'Mitra::list'); // Front-end Mitra (Cari Mitra);
 
@@ -71,9 +79,12 @@ $routes->add('/mitra/dynamic_form_kelurahan', 'Mitra::dynamic_form_kelurahan'); 
 $routes->add('/mitra/(:any)', 'Mitra::detail/$1'); // Front-end Mitra (Detail Mitra);
 
 $routes->add('/', 'Blog::homepage');
-$routes->add('/populer', 'Blog::populer');
+$routes->add('/terkini', 'Blog::terkini');
+$routes->add('/terpopuler', 'Blog::terpopuler');
 $routes->add('/kategori/(:any)', 'Blog::kategori/$1');
-$routes->add('/(:any)', 'Blog::artikel/$1');
+$routes->add('/penulis/(:any)', 'Blog::penulis/$1');
+$routes->add('/halaman/(:segment)', 'Blog::detail_halaman/$1');
+$routes->add('/(:segment)', 'Blog::detail_artikel/$1');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

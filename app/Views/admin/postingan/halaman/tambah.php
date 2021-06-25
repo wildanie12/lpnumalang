@@ -6,7 +6,7 @@
 		<?=csrf_field()?>
 		<div class="row">
 			<div class="col-lg-8">
-				<div class="card">
+				<div class="card no-transform">
 					<div class="card-header p-3" style="line-height: 8px">
 						<h3 class="card-title mb-0 pb-0">Buat halaman statis</h3>
 						<span class="text-muted text-uppercase font-weight-bold" style="font-size: 8pt;">Anda bisa menuliskan halaman statis seperti: Visi Misi, Tentang, Kontak, dsb.</span>

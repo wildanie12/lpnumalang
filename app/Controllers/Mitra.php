@@ -12,12 +12,23 @@ class Mitra extends Controller
 	protected $sidebar;
 
 	function __construct() {
-		$this->sidebar = [
-			"Home|fas fa-home|". base_url(),
-			"Mitra|fas fa-list|". site_url('mitra'),
-			"-|fab fa-facebook|https://www.facebook.com/groups/1576452679187898/?ref=share",
-			"-|fab fa-youtube|https://youtube.com/c/PENGAMBUHMALANGRAYA99",
-		];
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$navbar = $konfigurasiModel->find('APP_NAVBAR');
+		$navbar = json_decode($navbar['value_text']);
+		$navbar_converted = ["Beranda|fas fa-home|". base_url()];
+		foreach ($navbar as $nav) {
+			if (isset($nav->dropdown)) {
+				$nav_dropdown = [];
+				foreach ($nav->dropdown as $dropdown) {
+					$nav_dropdown[] = (($dropdown->judul != '') ? $dropdown->judul : '-') . '|' . $dropdown->icon. '|' . $dropdown->url;
+				}
+				$navbar_converted[$nav->judul . '|' . $nav->icon] = $nav_dropdown;
+			}
+			else {
+				$navbar_converted[] = (($nav->judul != '') ? $nav->judul : '-') . '|' . $nav->icon. '|' . $nav->url;
+			}
+		}
+		$this->sidebar = $navbar_converted;
 	}
 
 
@@ -28,6 +39,9 @@ class Mitra extends Controller
 
 	public function list()
 	{
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+
 		$wilayahModel = new WilayahModel();
 		$data['data_kecamatan'] = $wilayahModel->select('kecamatan')->distinct()->orderBy('kecamatan', 'asc')->findAll();
 		$data['ui_title'] = "Mitra-mitra LPNU Malang - lpnumalang.or.id";
@@ -45,6 +59,9 @@ class Mitra extends Controller
 
 	public function detail($id = false)
 	{
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+
 		$mitraModel = new MitraModel();
 		$data['adminModel'] = new \App\Models\AdminModel();
 		$data['mitra'] = $mitraModel->find($id);
@@ -70,8 +87,20 @@ class Mitra extends Controller
 				}
 				rtrim($judul, ', ');
 			}
-
+			$data['nama_bulan'] = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+			$data['nama_hari'] = ['', 'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum\'at", 'Sabtu', 'Ahad'];
+			$tataLetakModel = new \App\Models\TataLetakModel();
+			$data['artikelModel'] = new \App\Models\ArtikelModel();
+			$data['adminModel'] = new \App\Models\AdminModel();
+			$data['kategoriModel'] = new \App\Models\KategoriModel();
+			$data['data_tata_letak_widget'] = $tataLetakModel
+				->where('halaman', 'detail-mitra')
+				->where('penempatan', 'widget')
+				->orderBy('row', 'asc')
+				->findAll();
 			$data['ui_title'] = $judul . " - LPNU Malang";
+			$data['ui_background_image'] = site_url('images/pattern-paper.jpg');
+
 			$data['ui_css'] = [
 				"lib/light-slider/css/lightslider.min.css"
 			];
@@ -79,6 +108,7 @@ class Mitra extends Controller
 				"lib/light-slider/js/lightslider.min.js"
 			];
 			$data['ui_navbar'] = $this->sidebar;
+
 			return view('mitra/detail', $data);
 		}
 		else {

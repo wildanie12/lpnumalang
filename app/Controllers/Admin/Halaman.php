@@ -9,8 +9,8 @@ class Halaman extends Controller
 		"Postingan|fas fa-newspaper|primary|admin/postingan/artikel",
 		"Data Mitra|fas fa-store|primary|admin/mitra",
 		"Pengguna|fas fa-users|primary|admin/pengguna",
-		"Tata Letak|fas fa-ruler-combined|primary|admin/mitra",
-		"Konfigurasi|fas fa-cog|primary|admin/mitra",
+		"Tata Letak|fas fa-ruler-combined|primary|admin/tataletak",
+		"Konfigurasi|fas fa-cog|primary|admin/konfigurasi",
 	];
 	protected $navbar_link = [
 		"Buat Halaman|fas fa-pencil-alt|admin/postingan/halaman/tambah|primary",
@@ -52,7 +52,9 @@ class Halaman extends Controller
 		if (!$data['userdata']) {
 			return redirect()->to(site_url('logout'));
 		}
-		$data['ui_title'] = "Data Mitra LPNU - LPNU Administrator";
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+		$data['ui_title'] = "Administrator - Daftar Halaman Statis";;
 		$data['ui_sidebar'] = $this->sidebar_link;
 		$data['ui_sidebar_active'] = 'Postingan';
 
@@ -178,7 +180,9 @@ class Halaman extends Controller
 		$data['ui_js'] = [
 			"lib/ckeditor5/build/ckeditor.js"
 		];
-		$data['ui_title'] = "Buat Halaman - LPNU Administrator";
+		$konfigurasiModel = new \App\Models\KonfigurasiModel();
+		$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+		$data['ui_title'] = "Administrator - Tulis Halaman Statis";;
 		$data['ui_sidebar'] = $this->sidebar_link;
 		$data['ui_sidebar_active'] = 'Postingan';
 
@@ -201,7 +205,9 @@ class Halaman extends Controller
 			$data['ui_js'] = [
 				"lib/ckeditor5/build/ckeditor.js"
 			];
-			$data['ui_title'] = "Edit Halaman - LPNU Administrator";
+			$konfigurasiModel = new \App\Models\KonfigurasiModel();
+			$data['konfigurasi'] = $konfigurasiModel->showKeyValue();
+			$data['ui_title'] = "Administrator - Edit Halaman Statis";;
 			$data['ui_sidebar'] = $this->sidebar_link;
 			$data['ui_sidebar_active'] = 'Postingan';
 
@@ -342,17 +348,9 @@ class Halaman extends Controller
 				}
 				$data_db['file_artikel'] = $file_artikel;
 			}
-
-
-
-
-
 			$halamanModel = new \App\Models\HalamanModel();
 			$halamanModel->save($data_db);
-
 			session()->setFlashdata('admin_artikel_msg', 'halaman berhasil dibuat!');
-
-
 			$json = ['status' => 'success'];
 			if ($request->getPost('id') == '') {
 				$json['id'] = $halamanModel->getInsertID();
@@ -360,13 +358,8 @@ class Halaman extends Controller
 			else {
 				$json['id'] = $request->getPost('id');
 			}
-
-
-
 			echo json_encode($json);
-
 		}
 	}
-
 
 }

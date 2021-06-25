@@ -16,6 +16,20 @@
 		</div>
 	</div>
 </div> <!-- end header -->
+<div class="container">
+	<div class="row">
+		<div class="col form-group">
+			<label class="form-control-label">Nama</label>
+			<div class="input-group input-group-merge">
+				<div class="input-group-prepend">
+					<span class="input-gruop-text"><i class="fas fa-signature"></i></span>
+				</div>
+				<input type="text" class="form-control" name="nama" placeholder="Masukkan nama ....">
+			</div>
+		</div>
+		<div class="input-group"></div>
+	</div>
+</div>
 <div class="container-fluid mt--3">
 	<div class="row">
 		<div class="col">
@@ -85,5 +99,6 @@
 			e.preventDefault();
 		}
 	});
+
 </script>
 <?php $this->endSection(); ?>

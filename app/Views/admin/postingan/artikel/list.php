@@ -38,7 +38,7 @@
 							</div>
 							<div class="col-xl-3 col-lg-4 col-sm-6 col-6">
 								<div class="form-group mb-1">
-									<labe class="form-control-label mb-1 d-block">Jumlah data/halaman</label>
+									<label class="form-control-label mb-1 d-block">Jumlah data/halaman</label>
 									<div class="input-group input-group-merge input-group-sm">
 										<input type="number" id="filter-limit" class="form-control form-control" value="50">
 										<div class="input-group-append">
@@ -49,7 +49,7 @@
 							</div>
 							<div class="col-xl-3 col-lg-4 col-sm-6 col-12">
 								<div class="form-group mb-1">
-									<labe class="form-control-label mb-1 d-block">Halaman</label>
+									<label class="form-control-label mb-1 d-block">Halaman</label>
 									<div class="input-group input-group-merge input-group-sm">
 										<div class="input-group-prepend">
 											<button class="btn btn-sm btn-warning filter-btn-previous">
